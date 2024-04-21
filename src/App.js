@@ -59,7 +59,7 @@ function App() {
               path="/account/notification"
               element={<NotificationView/>}
             />
-            <Route exact path="/category" element={<ProductListView/>} />
+            <Route exact path="/category/:categoryId" element={<ProductListView/>} />
             <Route exact path="/product/detail" element={<ProductDetailView/>} />
             <Route exact path="/star/zone" element={<StarZoneView/>} />
             <Route exact path="/cart" element={<CartView/>} />

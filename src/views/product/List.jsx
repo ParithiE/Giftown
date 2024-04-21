@@ -23,7 +23,7 @@ class ProductListView extends Component {
     currentPage: null,
     totalPages: null,
     totalItems: 0,
-    view: "list",
+    view: "grid",
   };
 
   UNSAFE_componentWillMount() {
@@ -56,22 +56,11 @@ class ProductListView extends Component {
   render() {
     return (
       <React.Fragment>
-        <div
-          className="p-5 bg-primary bs-cover"
-          style={{
-            backgroundImage: "url(../../images/banner/50-Banner.webp)",
-          }}
-        >
-          <div className="container text-center">
-            <span className="display-5 px-3 bg-white rounded shadow">
-              T-Shirts
-            </span>
-          </div>
-        </div>
+       
         <Breadcrumb />
         <div className="container-fluid mb-3">
           <div className="row">
-            <div className="col-md-3">
+            <div className="col-md-2">
               <FilterCategory />
               <FilterPrice />
               <FilterSize />
@@ -81,7 +70,7 @@ class ProductListView extends Component {
               <FilterTag />
               <CardServices />
             </div>
-            <div className="col-md-9">
+            <div className="col-md-10">
               <div className="row">
                 <div className="col-7">
                   <span className="align-middle fw-bold">
@@ -105,11 +94,11 @@ class ProductListView extends Component {
                       aria-label="Grid"
                       type="button"
                       onClick={() => this.onChangeView("grid")}
-                      className={`btn ${
-                        this.state.view === "grid"
-                          ? "btn-primary"
-                          : "btn-outline-primary"
-                      }`}
+                      className="btn btn-outline-secondary"
+                      style={{
+                        backgroundColor: this.state.view === "grid" ? "var(--secondary-color)" : "white",
+                        color: "black"
+                      }}
                     >
                       <i className="bi bi-grid" />
                     </button>
@@ -117,11 +106,11 @@ class ProductListView extends Component {
                       aria-label="List"
                       type="button"
                       onClick={() => this.onChangeView("list")}
-                      className={`btn ${
-                        this.state.view === "list"
-                          ? "btn-primary"
-                          : "btn-outline-primary"
-                      }`}
+                      className= 'btn btn-outline-secondary'
+                      style={{
+                        backgroundColor: this.state.view === "list" ? "var(--secondary-color)" : "white",
+                        color: "black"
+                      }}
                     >
                       <i className="bi bi-list" />
                     </button>
@@ -133,7 +122,7 @@ class ProductListView extends Component {
                 {this.state.view === "grid" &&
                   this.state.currentProducts.map((product, idx) => {
                     return (
-                      <div key={idx} className="col-md-4">
+                      <div key={idx} className="col-md-3">
                         <CardProductGrid data={product} />
                       </div>
                     );

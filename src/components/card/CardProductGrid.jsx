@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
+import '../../App.css'
 
 const CardProductGrid = (props) => {
   const product = props.data;
   return (
-    <div className="card">
-      <img src={product.img} className="card-img-top" alt="..." />
+    <div className="card" style={{ borderRadius: "20px"}}>
+       <div style={{overflow: "hidden", borderRadius: "20px 20px 0px 0px" }}>
+        <img src={product.img} className="card-img-top card-img-top zoom-img" alt="..." style={{ borderRadius: "inherit" }} />
+       </div>
       {product.isNew && (
         <span className="badge bg-success position-absolute mt-2 ms-2">
           New
@@ -28,11 +31,21 @@ const CardProductGrid = (props) => {
         </span>
       )}
       <div className="card-body">
+        <div className="d-flex align-items-end justify-content-between">
         <h6 className="card-subtitle mb-2">
           <Link to={product.link} className="text-decoration-none">
             {product.name}
           </Link>
         </h6>
+        <span
+            type="button"
+            className={`btn btn-sm ${product.isAddedToWishlist ? "btn-secondary" : "btn-outline-secondary"}`}
+            title="Add to wishlist"
+            style={{borderRadius: "15px"}}
+          >
+            <i className="bi bi-heart-fill" />
+          </span>
+          </div>
         <div className="my-2">
           <span className="fw-bold h5">${product.price}</span>
           {product.originPrice > 0 && (
@@ -47,18 +60,12 @@ const CardProductGrid = (props) => {
         <div className="btn-group  d-flex" role="group">
           <button
             type="button"
-            className="btn btn-sm btn-primary"
+            className={`btn btn-sm ${product.isAddedToCart ? "btn-primary" : "btn-outline-primary"} fs-6 font-weight-bold`}
             title="Add to cart"
           >
-            <i className="bi bi-cart-plus" />
+            <i class="bi bi-cart-plus-fill"></i> {product.isAddedToCart ? "Go To Cart" : "Add To Cart"}
           </button>
-          <button
-            type="button"
-            className="btn btn-sm btn-outline-secondary"
-            title="Add to wishlist"
-          >
-            <i className="bi bi-heart-fill" />
-          </button>
+         
         </div>
       </div>
     </div>

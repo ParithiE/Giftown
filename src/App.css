@@ -88,6 +88,7 @@
 
 .bg-primary{
   background-color: var(--primary-color) !important;
+  
 }
 
 .bg-secondary{
@@ -101,4 +102,26 @@
 /* Apply scale transformation on hover */
 .zoom-img:hover {
   transform: scale(1.10);
+}
+
+.btn-outline-primary:hover,
+.btn-primary {
+  color: var(--secondary-color) !important; /* Change text color on hover */
+  background-color: var(--primary-color) !important; 
+  border-color: rgb(0, 0, 0);/* Change background color on hover */
+}
+
+.btn-outline-secondary:hover,
+.btn-secondary {
+  color: red !important; /* Change text color on hover */
+  background-color: white !important; /* Change background color on hover */
+}
+
+.btn-primary:hover,
+.btn-secodary:hover,
+.btn-outline-primary,
+.btn-outline-secondary {
+  color:grey;
+  background-color: white;
+  border-color: grey;
 }

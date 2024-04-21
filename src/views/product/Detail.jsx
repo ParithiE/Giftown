@@ -74,10 +74,9 @@ const ProductDetailView = () => {
                       type="radio"
                       name="size"
                       id="sizes"
-                      disabled
                     />
                     <label className="form-check-label" htmlFor="sizes">
-                      S
+                      9*12 
                     </label>
                   </div>
                   <div className="form-check form-check-inline">
@@ -86,10 +85,9 @@ const ProductDetailView = () => {
                       type="radio"
                       name="size"
                       id="sizem"
-                      disabled
                     />
                     <label className="form-check-label" htmlFor="sizem">
-                      M
+                      12*12
                     </label>
                   </div>
                   <div className="form-check form-check-inline">
@@ -100,7 +98,7 @@ const ProductDetailView = () => {
                       id="sizel"
                     />
                     <label className="form-check-label" htmlFor="sizel">
-                      L
+                      12*18
                     </label>
                   </div>
                   <div className="form-check form-check-inline">
@@ -111,7 +109,7 @@ const ProductDetailView = () => {
                       id="sizexl"
                     />
                     <label className="form-check-label" htmlFor="sizexl">
-                      XL
+                      18*18
                     </label>
                   </div>
                   <div className="form-check form-check-inline">
@@ -126,7 +124,7 @@ const ProductDetailView = () => {
                     </label>
                   </div>
                 </dd>
-                <dt className="col-sm-3">Color</dt>
+                <dt className="col-sm-3">Frame Style</dt>
                 <dd className="col-sm-9">
                   <button className="btn btn-sm btn-primary p-2 me-2"></button>
                   <button className="btn btn-sm btn-secondary p-2 me-2"></button>

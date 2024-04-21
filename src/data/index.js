@@ -21,7 +21,7 @@ export const data = {
   ],
   iconProducts: [
     {
-      to: "/product/detail",
+      categoryId: 1,
       img: "../../images/category/product.webp",
       title: "Anniversary Gifts",
       text: " Upto 20% off",
@@ -29,7 +29,7 @@ export const data = {
       cssClass: "text-primary",
     },
     {
-      to: "/product/detail",
+      categoryId: 1,
       img: "../../images/category/product.webp",
       title: "Anniversary Gifts",
       text: " Upto 50% off",
@@ -37,7 +37,7 @@ export const data = {
       cssClass: "text-secondary",
     },
     {
-      to: "/product/detail",
+      categoryId: 1,
       img: "../../images/category/product.webp",
       title: "Anniversary Gifts",
       text: " Upto 20% off",
@@ -45,7 +45,7 @@ export const data = {
       cssClass: "text-danger",
     },
     {
-      to: "/product/detail",
+      categoryId: 1,
       img: "../../images/category/product.webp",
       title: "Anniversary Gifts",
       text: " Upto 25% off",
@@ -53,7 +53,7 @@ export const data = {
       cssClass: "text-warning",
     },
     {
-      to: "/product/detail",
+      categoryId: 2,
       img: "../../images/category/product.webp",
       title: "Anniversary Gifts",
       text: " Upto 30% off",
@@ -61,7 +61,7 @@ export const data = {
       cssClass: "text-info",
     },
     {
-      to: "/product/detail",
+      categoryId: 2,
       img: "../../images/category/product.webp",
       title: "Anniversary Gifts",
       text: " Upto 15% off",
@@ -69,7 +69,7 @@ export const data = {
       cssClass: "text-success",
     },
     {
-      to: "/product/detail",
+      categoryId: 3,
       img: "../../images/category/product.webp",
       title: "UPC Scan",
       text: " Upto 45% off",
@@ -77,7 +77,7 @@ export const data = {
       cssClass: "text-muted",
     },
     {
-      to: "/product/detail",
+      categoryId: 3,
       img: "../../images/category/product.webp",
       title: "Tools",
       text: " Upto 50% off",
@@ -100,6 +100,8 @@ export const data = {
       isHot: false,
       star: 4,
       isFreeShipping: true,
+      isAddedToCart: true,
+      isAddedToWishlist: true,
       description:
         "Nulla sodales sit amet orci eu vehicula. Curabitur metus velit, fermentum a velit ac, sodales egestas lacus. Etiam congue velit vel luctus dictum. Pellentesque at pellentesque sapien.",
     },
@@ -117,6 +119,8 @@ export const data = {
       isHot: true,
       star: 3,
       isFreeShipping: true,
+      isAddedToCart: true,
+      isAddedToWishlist: true,
       description:
         "Maecenas suscipit volutpat gravida. Nulla hendrerit nisi a lectus blandit aliquam. Integer enim magna, consequat sed justo nec, auctor sagittis urna.",
     },
@@ -134,6 +138,8 @@ export const data = {
       isHot: true,
       star: 2,
       isFreeShipping: true,
+      isAddedToCart: true,
+      isAddedToWishlist: false,
       description:
         "Vivamus sapien eros, molestie sed lacus vitae, lacinia volutpat ipsum. Nam sollicitudin lorem eget ornare vulputate.",
     },
@@ -151,6 +157,8 @@ export const data = {
       isHot: false,
       star: 0,
       isFreeShipping: false,
+      isAddedToCart: false,
+      isAddedToWishlist: true,
       description:
         "Morbi lobortis velit non consectetur porta.|Duis auctor risus ac purus vehicula tempor.|Fusce at ipsum a leo tempor malesuada.|Curabitur tincidunt justo vel volutpat suscipit.",
     },
@@ -168,6 +176,8 @@ export const data = {
       isHot: false,
       star: 4,
       isFreeShipping: true,
+      isAddedToCart: false,
+      isAddedToWishlist: true,
       description:
         "Nulla sodales sit amet orci eu vehicula. Curabitur metus velit, fermentum a velit ac, sodales egestas lacus. Etiam congue velit vel luctus dictum. Pellentesque at pellentesque sapien.",
     },
@@ -185,6 +195,8 @@ export const data = {
       isHot: false,
       star: 4,
       isFreeShipping: true,
+      isAddedToCart: true,
+      isAddedToWishlist: false,
       description:
         "Nulla sodales sit amet orci eu vehicula. Curabitur metus velit, fermentum a velit ac, sodales egestas lacus. Etiam congue velit vel luctus dictum. Pellentesque at pellentesque sapien.",
     },
@@ -202,6 +214,8 @@ export const data = {
       isHot: false,
       star: 4,
       isFreeShipping: true,
+      isAddedToCart: false,
+      isAddedToWishlist: false,
       description:
         "Nulla sodales sit amet orci eu vehicula. Curabitur metus velit, fermentum a velit ac, sodales egestas lacus. Etiam congue velit vel luctus dictum. Pellentesque at pellentesque sapien.",
     },
@@ -219,6 +233,8 @@ export const data = {
       isHot: false,
       star: 4,
       isFreeShipping: true,
+      isAddedToCart: false,
+      isAddedToWishlist: false,
       description:
         "Nulla sodales sit amet orci eu vehicula. Curabitur metus velit, fermentum a velit ac, sodales egestas lacus. Etiam congue velit vel luctus dictum. Pellentesque at pellentesque sapien.",
     },

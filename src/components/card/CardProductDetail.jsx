@@ -17,7 +17,10 @@ export default function CardProductDetail(props) {
                         <span style={{ marginLeft: "5px", textDecorationLine: "line-through", color: "grey" }}>₹{props.originalPrice}</span>
                     </div>
 
-                    <span className='badge bg-success me-2'>{props.rating}</span>
+                    <span className='badge bg-success me-2'>
+                        <i class="bi bi-star-fill"></i>
+                        <span className='m-1'>{props.star}</span>
+                        </span>
                 </div>
             </div>
         </div>

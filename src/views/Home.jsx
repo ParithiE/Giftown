@@ -53,7 +53,7 @@ class HomeView extends Component {
                   title={product.title}
                   text={product.text}
                   tips={product.tips}
-                  to={product.to}
+                  categoryId={product.categoryId}
                 >
                   <img src={product.img} alt="product.title" />
                   {/* <ProductImage className={product.cssClass} width="80" height="80" /> */}
@@ -74,7 +74,7 @@ class HomeView extends Component {
             title={item.name}
             originalPrice={item.originPrice}
             discountPrice={item.discountPrice}
-            rating="s" />
+            star = {item.star} />
         </div>
         
       )
