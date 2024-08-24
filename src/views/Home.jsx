@@ -48,7 +48,7 @@ class HomeView extends Component {
           {row.map((product, idx) => {
             // const ProductImage = this.components[product.img];
             return (
-              <div key={idx} className="col-md-3">
+              <div key={idx} className="col-lg-3 col-md-6">
                 <CardIcon
                   title={product.title}
                   text={product.text}
@@ -83,21 +83,29 @@ class HomeView extends Component {
     return (
       <React.Fragment>
         <Banner className="mb-3" id="carouselHomeBanner" data={data.banner} />
-        <h2 class="m-4"> Categories </h2>
-        <div className="container-fluid bg-light mb-3">
-          <div className="row g-3">
-            <div className="col-md-9">
-              <Carousel id="elect-product-category" className="mb-4">
+        <h2 class="m-4 text-section"> Categories </h2>
+        <div className="container-fluid">
+          <div className="row">
+             <Carousel id="elect-product-category" className="mb-4">
                 {carouselContent}
               </Carousel>
-              <Support />
+
+          </div>
+        </div>
+        <div className="container-fluid bg-light mb-3 mt-3">
+          <div className="row g-3">
+            <div className="col-md-9">
+             
+        <Support />
+
             </div>
             <div className="col-md-3">
               <CardLogin className="mb-3" />
-              <CardImage src="../../images/banner/Watches.webp" to="promo" />
+              <CardImage src="../../images/gift.png" to="promo"  className= "lucky-image" />
             </div>
           </div>
         </div>
+
         <div className="container-fluid bg-light mt-5 mb-3">
           <div className="row">
             <div className="col-md-12">

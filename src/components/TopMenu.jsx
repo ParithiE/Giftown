@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
+import { navItems } from "../data/links";
 
 const TopMenu = () => {
   return (
-    <nav className="navbar navbar-expand-lg bg-secondary p-0">
+    <div className="\">
+    <nav className="navbar navbar-expand-lg bg-primary-v1 p-0">
       <div className="container-fluid">
         {/* <Link className="navbar-brand" to="/">
           E-Commerce
         </Link> */}
         <button
-          className="navbar-toggler"
+          className="navbar-toggler "
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarSupportedContent"
@@ -20,7 +22,7 @@ const TopMenu = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav">
-            <li className="nav-item dropdown">
+            {/* <li className="nav-item dropdown">
               <button
                 className="btn nav-link dropdown-toggle fw-bold"
                 id="navbarDropdown"
@@ -78,46 +80,18 @@ const TopMenu = () => {
                   </Link>
                 </li>
               </ul>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/category">
-                Fashion
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/category">
-                Supermarket
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/category">
-                Electronics
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/category">
-                Furniture
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/category">
-                Garden & Outdoors
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/category">
-                Jewellery
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/documentation">
-                Documentation
-              </Link>
-            </li>
+            </li> */}
+            {navItems.map((item, index) => (
+              <li className="nav-item" key={index}>
+                <Link className={`nav-link text-secondary` } to={item.link}>
+                  {item.text}
+                </Link>
+              </li>))}
           </ul>
         </div>
       </div>
     </nav>
+    </div>
   );
 };
 

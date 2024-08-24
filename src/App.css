@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+*{
+  text-decoration: none  !important;
+}
 .required:after {
   content: " *";
   color: red;
@@ -90,6 +96,11 @@
   background-color: var(--primary-color) !important;
 }
 
+
+.bg-primary-v1{
+  background-color: var(--primary-color-v1) !important;
+}
+
 .bg-secondary{
   background-color: var(--secondary-color) !important;
 }
@@ -101,4 +112,197 @@
 /* Apply scale transformation on hover */
 .zoom-img:hover {
   transform: scale(1.10);
+}
+
+.text-primary {
+  color: var(--primary-color-v1)  !important;
+}
+.text-secondary {
+  color: var(--secondary-color) !important;
+}
+
+.translate-half {
+  transform: translate(-50%) !important;
+}
+
+.custom-hr {
+  border: none;
+  border-top: 1px solid #ccc; /* Color and thickness */
+  margin: 20px 0; /* Space around the line */
+  text-align: center;
+}
+
+.text-section{
+  font-family: sacramento, Sans-serif;
+    font-size: 60px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.h-70{
+  height: 70% !important;
+}
+
+.button {
+  width: 600px;
+  height: 600px;
+  font-size:30px;
+  color: #fff;
+  background: none;
+  border: none;
+  border-radius: 50%; 
+  position: relative;
+  z-index: 0;
+  transition: .3s;
+  cursor: pointer;
+}
+.button:before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  padding: 10px;
+  border-radius: 50%; 
+  background: conic-gradient(
+        #ff53bb ,
+        #0000 30deg 120deg,
+        #00f8d3 150deg 180deg,
+        #0000 210deg 300deg,
+        #ff53bb 330deg
+    );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: intersect
+}
+.button:after {
+  content: "";
+  position: absolute;
+  inset: -100px;
+  background:
+    radial-gradient(200px at left  400px top 150px,#ff53bb 100%,#0000),
+    radial-gradient(200px at right 400px bottom 150px,#00f8d3 100%,#0000);
+  filter: blur(120px);
+  opacity: .5;
+}
+
+.button:before,
+.button:after {
+  transition:.5s, 99999s 99999s transform;
+}
+.button:hover {
+  box-shadow: 0 0 0 1px #666;
+}
+
+.button:hover:before,
+.button:hover:after {
+  transform: rotate(36000deg);
+  transition: .5s,600s linear transform;
+}
+.button:before {
+  background-color: #222;
+    border: 2px solid #333;
+}
+
+.body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  grid-auto-flow: column;
+  background-color: #111;
+}
+
+button>img{
+    border-radius: 50%;
+    left: -2px;
+    position: relative;
+    top: 2px;
+    width: 594px;
+    opacity:0.9;
+}
+
+.animated-button {
+  margin-top: auto;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--primary-color);
+  border: none;
+  color: white;
+  padding: 10px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  width: max-content;
+}
+
+.animated-button:hover {
+  background-color:  var(--secondary-color); /* Darker green */
+  transform: scale(1.05); /* Slightly enlarge the button */
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+
+.animated-image {
+  width: 300px; /* Adjust width based on your design */
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.animated-image.fade-in {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.animated-image.shake {
+  animation: shake 3s ease-in-out infinite;
+}
+
+.lucky-image {
+  height: 15rem;
+  width: auto;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-5px);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+  75% {
+    transform: translateY(-5px);
+  }
+}
+
+@media (max-width: 992px) {
+  .top-menu-container {
+    position: absolute;
+    top: 100%; /* Position it right below the header */
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  .navbar-collapse {
+    background-color: #ffffff; /* Or any background color that suits your design */
+    padding: 10px;
+  }
+}
+
+@media (min-width: 850px) {
+  .content-desktop {
+    width: 85%;
+    margin: 0 auto;
+  }
 }
