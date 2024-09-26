@@ -31,49 +31,56 @@ const SupportView = lazy(() => import("./views/pages/Support"));
 const BlogView = lazy(() => import("./views/blog/Blog"));
 const BlogDetailView = lazy(() => import("./views/blog/Detail"));
 
+
 function App() {
   return (
     <BrowserRouter>
       <React.Fragment>
         <Header />
-        <TopMenu />
-        <Suspense
-          fallback={
-            <div className="text-white text-center mt-3">Loading...</div>
-          }
-        >
-          <Routes>
-            <Route exact path="/" element={<HomeView/>} />
-            <Route exact path="/account/signin" element={<SignInView/>} />
-            <Route exact path="/account/signup" element={<SignUpView/>} />
-            <Route
-              exact
-              path="/account/forgotpassword"
-              element={<ForgotPasswordView/>}
-            />
-            <Route exact path="/account/profile" element={<MyProfileView/>} />
-            <Route exact path="/account/orders" element={<OrdersView/>} />
-            <Route exact path="/account/wishlist" element={<WishlistView/>} />
-            <Route
-              exact
-              path="/account/notification"
-              element={<NotificationView/>}
-            />
-            <Route exact path="/category/:categoryId" element={<ProductListView/>} />
-            <Route exact path="/product/detail" element={<ProductDetailView/>} />
-            <Route exact path="/star/zone" element={<StarZoneView/>} />
-            <Route exact path="/cart" element={<CartView/>} />
-            <Route exact path="/checkout" element={<CheckoutView />} />
-            <Route exact path="/invoice" element={<InvoiceView />} />
-            <Route exact path="/documentation" element={<DocumentationView/>} />
-            <Route exact path="/contact-us" element={<ContactUsView/>} />
-            <Route exact path="/support" element={<SupportView/>} />
-            <Route exact path="/blog" element={<BlogView/>} />
-            <Route exact path="/blog/detail" element={<BlogDetailView/>} />
-            <Route exact path="/500" element={<InternalServerErrorView/>} />
-            <Route path="*" element={<NotFoundView/>} />
-          </Routes>
-        </Suspense>
+        {/* <TopMenu /> */}
+        <div className="container-fluid my-3">
+          <div className="row justify-content-center">
+            <div className="col-lg-12 content-desktop">
+              <Suspense
+                fallback={
+                  <div className="text-white text-center mt-3">Loading...</div>
+                }
+              >
+                <Routes>
+                  <Route exact path="/" element={<HomeView />} />
+                  <Route exact path="/account/signin" element={<SignInView />} />
+                  <Route exact path="/account/signup" element={<SignUpView />} />
+                  <Route
+                    exact
+                    path="/account/forgotpassword"
+                    element={<ForgotPasswordView />}
+                  />
+                  <Route exact path="/account/profile" element={<MyProfileView />} />
+                  <Route exact path="/account/orders" element={<OrdersView />} />
+                  <Route exact path="/account/wishlist" element={<WishlistView />} />
+                  <Route
+                    exact
+                    path="/account/notification"
+                    element={<NotificationView />}
+                  />
+                  <Route exact path="/category/:categoryId" element={<ProductListView />} />
+                  <Route exact path="/product/detail" element={<ProductDetailView />} />
+                  <Route exact path="/star/zone" element={<StarZoneView />} />
+                  <Route exact path="/cart" element={<CartView />} />
+                  <Route exact path="/checkout" element={<CheckoutView />} />
+                  <Route exact path="/invoice" element={<InvoiceView />} />
+                  <Route exact path="/documentation" element={<DocumentationView />} />
+                  <Route exact path="/contact-us" element={<ContactUsView />} />
+                  <Route exact path="/support" element={<SupportView />} />
+                  <Route exact path="/blog" element={<BlogView />} />
+                  <Route exact path="/blog/detail" element={<BlogDetailView />} />
+                  <Route exact path="/500" element={<InternalServerErrorView />} />
+                  <Route path="*" element={<NotFoundView />} />
+                </Routes>
+              </Suspense>
+            </div>
+          </div>
+        </div>
         <Footer />
       </React.Fragment>
     </BrowserRouter>

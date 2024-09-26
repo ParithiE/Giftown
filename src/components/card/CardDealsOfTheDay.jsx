@@ -23,15 +23,16 @@ const CardDealsOfTheDay = (props) => {
   return (
     <div className="card">
       <div className="card-body">
-        <h5 className="card-title pb-3 border-bottom">
-          {props.title} <i className="bi bi-stopwatch text-primary" />{" "}
+        <h2 class="m-2 text-section">
+          {props.title}
+           {/* <i className="bi bi-stopwatch text-primary" />{" "} */}
           {/* <Countdown date={props.endDate} renderer={renderer} /> */}
           <span className="float-end">
-            <Link to={props.to} className="btn btn-sm btn-outline-primary">
+            {/* <Link to={props.to} className="btn btn-sm btn-outline-primary">
               View All
-            </Link>
+            </Link> */}
           </span>
-        </h5>
+        </h2>
         {props.children}
       </div>
     </div>

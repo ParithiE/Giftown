@@ -10,6 +10,7 @@ import { ReactComponent as IconHdd } from "bootstrap-icons/icons/hdd.svg";
 import { ReactComponent as IconUpcScan } from "bootstrap-icons/icons/upc-scan.svg";
 import { ReactComponent as IconTools } from "bootstrap-icons/icons/tools.svg";
 import CardProductDetail from "../components/card/CardProductDetail";
+import { CardSupport } from "../components/card/CardSupport";
 
 const Support = lazy(() => import("../components/Support"));
 const Banner = lazy(() => import("../components/carousel/Banner"));
@@ -48,7 +49,7 @@ class HomeView extends Component {
           {row.map((product, idx) => {
             // const ProductImage = this.components[product.img];
             return (
-              <div key={idx} className="col-md-3">
+              <div key={idx} className="col-lg-3 col-md-6">
                 <CardIcon
                   title={product.title}
                   text={product.text}
@@ -67,38 +68,46 @@ class HomeView extends Component {
 
     const trendingProducts = products.map((item, idx) => {
       // <div className={`card-item ${idx === 0 ? "active" : ""}`} key={idx}>
-    
+
       return (
         <div key={idx} className="col-md-3">
-          <CardProductDetail img = {item.img}
+          <CardProductDetail img={item.img}
             title={item.name}
             originalPrice={item.originPrice}
             discountPrice={item.discountPrice}
-            star = {item.star} />
+            star={item.star} />
         </div>
-        
+
       )
     })
 
     return (
       <React.Fragment>
         <Banner className="mb-3" id="carouselHomeBanner" data={data.banner} />
-        <h2 class="m-4"> Categories </h2>
-        <div className="container-fluid bg-light mb-3">
+        <h2 class="m-4 text-section"> Categories </h2>
+        <div className="container-fluid">
+          <div className="row">
+            <Carousel id="elect-product-category" className="mb-4">
+              {carouselContent}
+            </Carousel>
+
+          </div>
+        </div>
+        <div className="container-fluid bg-light mb-3 mt-3">
           <div className="row g-3">
             <div className="col-md-9">
-              <Carousel id="elect-product-category" className="mb-4">
-                {carouselContent}
-              </Carousel>
+
               <Support />
+
             </div>
             <div className="col-md-3">
               <CardLogin className="mb-3" />
-              <CardImage src="../../images/banner/Watches.webp" to="promo" />
+              <CardImage src="../../images/gift.png" to="promo" className="lucky-image" />
             </div>
           </div>
         </div>
-        <div className="container-fluid bg-light mt-5 mb-3">
+
+        <div className="container-fluid mt-5 mb-3">
           <div className="row">
             <div className="col-md-12">
               <CardDealsOfTheDay
@@ -107,9 +116,9 @@ class HomeView extends Component {
                 to="/"
               >
                 {/* <Carousel id="elect-product-category1"> */}
-                
+
                 <div className="row g-3">
-                {trendingProducts}
+                  {trendingProducts}
                 </div>
                 {/* </Carousel> */}
               </CardDealsOfTheDay>
@@ -117,50 +126,70 @@ class HomeView extends Component {
           </div>
         </div>
 
-        <div className="bg-info bg-gradient p-3 text-center mb-3">
-          <h4 className="m-0">Explore Fashion Collection</h4>
-        </div>
-        <div className="container">
+
+        <div className="container-fluid">
           <div className="row">
-            <div className="col-md-3">
-              <Link to="/" className="text-decoration-none">
-                <img
-                  src="../../images/category/male.webp"
-                  className="img-fluid rounded-circle"
-                  alt="..."
-                />
-                <div className="text-center h6">Men's Clothing</div>
-              </Link>
+            <div className="col-md-4">
+              <div className="container-fluid">
+                <div className="row d-flex flex-column align-items-center text-center">
+                  <div className="col-md-12">
+                    <CardSupport />
+
+                    <div className="col-md-12">
+                      <CardSupport />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="col-md-3">
-              <Link to="/" className="text-decoration-none">
-                <img
-                  src="../../images/category/female.webp"
-                  className="img-fluid rounded-circle"
-                  alt="..."
-                />
-                <div className="text-center h6">Women's Clothing</div>
-              </Link>
-            </div>
-            <div className="col-md-3">
-              <Link to="/" className="text-decoration-none">
-                <img
-                  src="../../images/category/smartwatch.webp"
-                  className="img-fluid rounded-circle"
-                  alt="..."
-                />
-                <div className="text-center h6">Smartwatch</div>
-              </Link>
-            </div>
-            <div className="col-md-3">
-              <Link to="/" className="text-decoration-none">
-                <img
-                  src="../../images/category/footwear.webp"
-                  className="img-fluid rounded-circle"
-                  alt="..."
-                />
-                <div className="text-center h6">Footwear</div>
-              </Link>
+            <div className="col-md-8">
+              <div className="container">
+                <div className="row">
+                  <div className="p-3 text-center mb-3">
+                    <h2 class="m-4 text-section">Explore Fashion Collection</h2>
+                  </div>
+                  <div className="col-md-3">
+                    <Link to="/" className="text-decoration-none">
+                      <img
+                        src="../../images/category/male.webp"
+                        className="img-fluid rounded-circle"
+                        alt="..."
+                      />
+                      <div className="text-center h6">Men's Clothing</div>
+                    </Link>
+                  </div>
+                  <div className="col-md-3">
+                    <Link to="/" className="text-decoration-none">
+                      <img
+                        src="../../images/category/female.webp"
+                        className="img-fluid rounded-circle"
+                        alt="..."
+                      />
+                      <div className="text-center h6">Women's Clothing</div>
+                    </Link>
+                  </div>
+                  <div className="col-md-3">
+                    <Link to="/" className="text-decoration-none">
+                      <img
+                        src="../../images/category/smartwatch.webp"
+                        className="img-fluid rounded-circle"
+                        alt="..."
+                      />
+                      <div className="text-center h6">Smartwatch</div>
+                    </Link>
+                  </div>
+                  <div className="col-md-3">
+                    <Link to="/" className="text-decoration-none">
+                      <img
+                        src="../../images/category/footwear.webp"
+                        className="img-fluid rounded-circle"
+                        alt="..."
+                      />
+                      <div className="text-center h6">Footwear</div>
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

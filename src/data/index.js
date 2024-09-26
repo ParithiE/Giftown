@@ -14,7 +14,7 @@ export const data = {
     },
     {
       to: "/link",
-      img: "../../images/banner/Banner_1.webp",
+      img: "../../images/banner/banner.jpg",
       title: "Third slide label",
       description: " Praesent commodo cursus magna, vel scelerisque nisl.",
     },
