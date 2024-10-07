@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import { navItems } from "../data/links";
+import React, { useState } from 'react';
+import '../App.css'
 
 const TopMenu = () => {
+  const [hoveredCategory, setHoveredCategory] = useState(null);
+
   return (
+    
     <div className="\">
     <nav className="navbar navbar-expand-lg bg-primary-v1 p-0">
       <div className="container-fluid">
@@ -22,6 +27,30 @@ const TopMenu = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav">
+            {navItems.map((item, index) => (
+                <li
+                    className="nav-item"
+                    key={index}
+                    onMouseEnter={() => setHoveredCategory(item.text)}
+                    onMouseLeave={() => setHoveredCategory(null)}
+                >
+                    <Link className="nav-link text-secondary" to={item.link}>
+                        {item.text}
+                    </Link>
+                    {hoveredCategory === item.text && item.subCategories && (
+                        <ul className="nav-dropdown-menu">
+                            {item.subCategories.map((subItem, subIndex) => (
+                                <li key={subIndex}>
+                                    <Link className="nav-dropdown-item" to={subItem.link}>
+                                        {subItem.text}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </li>
+            ))}
+        </ul>
             {/* <li className="nav-item dropdown">
               <button
                 className="btn nav-link dropdown-toggle fw-bold"
@@ -81,13 +110,13 @@ const TopMenu = () => {
                 </li>
               </ul>
             </li> */}
-            {navItems.map((item, index) => (
+            {/* {navItems.map((item, index) => (
               <li className="nav-item" key={index}>
                 <Link className={`nav-link text-secondary` } to={item.link}>
                   {item.text}
                 </Link>
               </li>))}
-          </ul>
+          </ul> */}
         </div>
       </div>
     </nav>

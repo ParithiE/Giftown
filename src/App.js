@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
@@ -7,6 +7,8 @@ import TopMenu from "./components/TopMenu";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.min.css";
+import { useDispatch } from "react-redux";
+import { fetchProducts } from "./reducers/product-thunk.ts";
 //const Header = lazy(() => import("./components/Header"));
 //const TopMenu = lazy(() => import("./components/TopMenu"));
 const HomeView = lazy(() => import("./views/Home"));
@@ -33,12 +35,17 @@ const BlogDetailView = lazy(() => import("./views/blog/Detail"));
 
 
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(fetchProducts())
+  }, [dispatch]);
   return (
     <BrowserRouter>
       <React.Fragment>
         <Header />
         {/* <TopMenu /> */}
-        <div className="container-fluid my-3">
+        <div className="container-fluid section">
           <div className="row justify-content-center">
             <div className="col-lg-12 content-desktop">
               <Suspense

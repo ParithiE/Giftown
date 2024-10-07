@@ -4,6 +4,10 @@
 *{
   text-decoration: none  !important;
 }
+
+.section{
+  background-color: #f2f2f2;
+}
 .required:after {
   content: " *";
   color: red;
@@ -327,4 +331,42 @@ button>img{
   color:grey;
   background-color: white;
   border-color: grey;
+}
+
+.nav {
+  list-style: none;
+  padding: 0;
+}
+
+.nav-item {
+  position: relative;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%;  /* Adjust as needed */
+  left: 0;
+  display: block;
+  background-color: var(--primary-color-v1);
+  border: 1px solid #ccc;
+  z-index: 1000;  /* Ensure it shows above other elements */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  list-style: none; /* Remove default list styles */
+  padding: 10px;
+  width:max-content;
+  
+}
+
+.nav-dropdown-item {
+  padding: 5px; /* Adjust padding as needed */
+  text-decoration: none;
+  color: var(--secondary-color); /* Change color as needed */
+  /* margin-top: 30px I !important; */
+  display: block;
+  height: 35px;
+}
+.nav-dropdown-item:hover {
+  background-color: var(--secondary-color); /* Change hover effect */
+  color: var(--primary-color)
 }

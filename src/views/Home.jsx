@@ -11,6 +11,8 @@ import { ReactComponent as IconUpcScan } from "bootstrap-icons/icons/upc-scan.sv
 import { ReactComponent as IconTools } from "bootstrap-icons/icons/tools.svg";
 import CardProductDetail from "../components/card/CardProductDetail";
 import { CardSupport } from "../components/card/CardSupport";
+import { useProductSeletor } from "../hooks/useProductSelector.ts";
+import { IMAGEPATH } from "../constants/CommonConstant.ts";
 
 const Support = lazy(() => import("../components/Support"));
 const Banner = lazy(() => import("../components/carousel/Banner"));
@@ -22,133 +24,137 @@ const CardDealsOfTheDay = lazy(() =>
   import("../components/card/CardDealsOfTheDay")
 );
 
-class HomeView extends Component {
-  components = {
-    IconLaptop: IconLaptop,
-    IconHeadset: IconHeadset,
-    IconPhone: IconPhone,
-    IconTv: IconTv,
-    IconDisplay: IconDisplay,
-    IconHdd: IconHdd,
-    IconUpcScan: IconUpcScan,
-    IconTools: IconTools,
-  };
+const HomeView = () => {
+  const { categories, trendingProducts } = useProductSeletor();
 
-  render() {
-    const iconProducts = data.iconProducts;
-    const products = data.products;
-    const rows = [...Array(Math.ceil(iconProducts.length / 4))];
-    // chunk the products into the array of rows
-    const productRows = rows.map((row, idx) =>
-      iconProducts.slice(idx * 4, idx * 4 + 4)
-    );
-    // map the rows as div.row
-    const carouselContent = productRows.map((row, idx) => (
+  const products = data.products;
+  const rows = [...Array(Math.ceil(categories.length / 5))];
+  //chunk the products into the array of rows
+  const categoryRow = rows.map((row, idx) =>
+    categories.slice(idx * 5, idx * 5 + 5)
+  );
+  // map the rows as div.row
+  const carouselContent = categoryRow.map((row, idx) => {
+    return (
       <div className={`carousel-item ${idx === 0 ? "active" : ""}`} key={idx}>
         <div className="row g-3">
-          {row.map((product, idx) => {
-            // const ProductImage = this.components[product.img];
+          {row.map((category, idx) => {
             return (
-              <div key={idx} className="col-lg-3 col-md-6">
-                <CardIcon
-                  title={product.title}
-                  text={product.text}
-                  tips={product.tips}
-                  categoryId={product.categoryId}
+              <div className="col-md-2 col-sm-4 col-6" key={idx} >
+
+                <CardProductDetail img={`${IMAGEPATH.Category}${category.imageUrl}`}
+                  title={category.categoryname}
+                  tips={category.tips}
+                  text={"Upto 10% Off"}
+                  category={true} 
+                  // categoryId={}
+                  to = {`/category/${category.id}`}/>
+
+                {/* <CardIcon
+                  title={category.categoryname}
+                  text=
+                  tips={category.tips}
+                 
+                 
                 >
-                  <img src={product.img} alt="product.title" />
-                  {/* <ProductImage className={product.cssClass} width="80" height="80" /> */}
-                </CardIcon>
+                  <img src= style={{ overflow: "hidden" }} alt="category.title" />
+                </CardIcon> */}
               </div>
             );
           })}
         </div>
       </div>
-    ));
+    );
+  });
 
-    const trendingProducts = products.map((item, idx) => {
-      // <div className={`card-item ${idx === 0 ? "active" : ""}`} key={idx}>
-
-      return (
-        <div key={idx} className="col-md-3">
-          <CardProductDetail img={item.img}
-            title={item.name}
-            originalPrice={item.originPrice}
-            discountPrice={item.discountPrice}
-            star={item.star} />
-        </div>
-
-      )
-    })
+  const trendingProduct = trendingProducts.map((item, idx) => {
+    // <div className={`card-item ${idx === 0 ? "active" : ""}`} key={idx}>
 
     return (
-      <React.Fragment>
-        <Banner className="mb-3" id="carouselHomeBanner" data={data.banner} />
-        <h2 class="m-4 text-section"> Categories </h2>
-        <div className="container-fluid">
-          <div className="row">
-            <Carousel id="elect-product-category" className="mb-4">
-              {carouselContent}
-            </Carousel>
+      <div key={idx} className="col-md-4 mt-4">
+        <CardProductDetail img={`${IMAGEPATH.Product}${item.productMetaData.imageUrl}`}
+          title={item.name}
+          originalPrice={item.productMetaData.price}
+          discountPrice={item.productMetaData.price}
+          star={item.star}
+          product = {true} />
+      </div>
+
+    )
+  })
+
+  return (
+    <React.Fragment>
+      <Banner className="mb-3" id="carouselHomeBanner" data={data.banner} />
+      <h2 class="m-4 text-section"> Categories </h2>
+      <div className="container-fluid">
+        <div className="row">
+          {/* <div className="col-md-12"> */}
+          <Carousel id="elect-product-category" className="mb-4">
+            {/* <div className="row g-3"> */}
+            {carouselContent}
+            {/* </div> */}
+          </Carousel>
+          {/* </div> */}
+        </div>
+      </div>
+      <div className="container-fluid bg-light mb-3 mt-3">
+        <div className="row g-3">
+          <div className="col-md-9">
+
+            <Support />
 
           </div>
-        </div>
-        <div className="container-fluid bg-light mb-3 mt-3">
-          <div className="row g-3">
-            <div className="col-md-9">
-
-              <Support />
-
-            </div>
-            <div className="col-md-3">
-              <CardLogin className="mb-3" />
-              <CardImage src="../../images/gift.png" to="promo" className="lucky-image" />
-            </div>
+          <div className="col-md-3">
+            <CardLogin className="mb-3" />
+            <CardImage src="../../images/gift.png" to="promo" className="lucky-image" />
           </div>
         </div>
+      </div>
 
-        <div className="container-fluid mt-5 mb-3">
-          <div className="row">
-            <div className="col-md-12">
-              <CardDealsOfTheDay
-                endDate={Date.now() + 1000 * 60 * 60 * 14}
-                title="Trending Gifts"
-                to="/"
-              >
-                {/* <Carousel id="elect-product-category1"> */}
+      <div className="container-fluid mt-5 mb-3">
+        <div className="row">
+          <div className="col-md-12">
+            <CardDealsOfTheDay
+              endDate={Date.now() + 1000 * 60 * 60 * 14}
+              title="Trending Gifts"
+              to="/"
+            >
+              <Carousel id="elect-product-detail">
 
                 <div className="row g-3">
-                  {trendingProducts}
+                  {trendingProduct}
                 </div>
-                {/* </Carousel> */}
-              </CardDealsOfTheDay>
-            </div>
+              </Carousel>
+            </CardDealsOfTheDay>
           </div>
         </div>
+      </div>
 
 
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-4">
-              <div className="container-fluid">
-                <div className="row d-flex flex-column align-items-center text-center">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-4">
+            <div className="container-fluid">
+              <div className="row d-flex flex-column align-items-center text-center">
+                <div className="col-md-12">
+                  <CardSupport />
+
                   <div className="col-md-12">
                     <CardSupport />
-
-                    <div className="col-md-12">
-                      <CardSupport />
-                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="col-md-8">
-              <div className="container">
-                <div className="row">
-                  <div className="p-3 text-center mb-3">
-                    <h2 class="m-4 text-section">Explore Fashion Collection</h2>
-                  </div>
-                  <div className="col-md-3">
+          </div>
+          <div className="col-md-8">
+            <div className="container">
+              <div className="row">
+                <div className="p-3 text-center mb-3">
+                  <h2 class="m-4 text-section">Explore Sub Categories</h2>
+                </div>
+
+                {/* <div className="col-md-3">
                     <Link to="/" className="text-decoration-none">
                       <img
                         src="../../images/category/male.webp"
@@ -187,15 +193,15 @@ class HomeView extends Component {
                       />
                       <div className="text-center h6">Footwear</div>
                     </Link>
-                  </div>
-                </div>
+                  </div> */}
               </div>
             </div>
           </div>
         </div>
-      </React.Fragment>
-    );
-  }
+      </div>
+    </React.Fragment>
+  );
 }
+
 
 export default HomeView;

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const CardIcon = (props) => {
   return (
     <Link to={`/category/${props.categoryId}`} className="text-decoration-none">
-      <div className="card border-0 text-center">
+      <div className="card border-0 text-center" style={{ overflow: "hidden" }}>
         <div className="card-body">
           {props.children}
           <h6 className="card-title text-capitalize">{props.title}</h6>
