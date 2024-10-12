@@ -6,14 +6,12 @@ export default function CardProductDetail(props) {
     return (
         <Link to={props.to} className="text-decoration-none">
         <div className="card" style={{ overflow: "hidden" }}>
-            <Link>
                 <div style={{ overflow: "hidden" }}><img src={props.img} className="card-img-top zoom-img" alt="..." />
                 </div>
-            </Link>
 
-            {props.category && <div className="card-body">
+            {props.category && <div className="card-body" style={{textAlign: "center"}}>
                 {props.children}
-                <h6 className="card-title text-capitalize">{props.title}</h6>
+                <h6 className="card-title text-capitalize" >{props.title}</h6>
                 <div className="card-text text-success">{props.text}</div>
                 <small className="text-muted">{props.tips}</small>
             </div>}

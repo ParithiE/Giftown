@@ -13,6 +13,7 @@ import CardProductDetail from "../components/card/CardProductDetail";
 import { CardSupport } from "../components/card/CardSupport";
 import { useProductSeletor } from "../hooks/useProductSelector.ts";
 import { IMAGEPATH } from "../constants/CommonConstant.ts";
+import SubCategory from "./SubCategory.tsx";
 
 const Support = lazy(() => import("../components/Support"));
 const Banner = lazy(() => import("../components/carousel/Banner"));
@@ -25,9 +26,9 @@ const CardDealsOfTheDay = lazy(() =>
 );
 
 const HomeView = () => {
-  const { categories, trendingProducts } = useProductSeletor();
+  const { categories, subCategories, trendingProducts } = useProductSeletor();
 
-  const products = data.products;
+  // const products = data.products;
   const rows = [...Array(Math.ceil(categories.length / 5))];
   //chunk the products into the array of rows
   const categoryRow = rows.map((row, idx) =>
@@ -46,9 +47,9 @@ const HomeView = () => {
                   title={category.categoryname}
                   tips={category.tips}
                   text={"Upto 10% Off"}
-                  category={true} 
+                  category={true}
                   // categoryId={}
-                  to = {`/category/${category.id}`}/>
+                  to={`/category/${category.id}/subCategoy`} />
 
                 {/* <CardIcon
                   title={category.categoryname}
@@ -77,11 +78,31 @@ const HomeView = () => {
           originalPrice={item.productMetaData.price}
           discountPrice={item.productMetaData.price}
           star={item.star}
-          product = {true} />
+          product={true} 
+          to = {`/product/${item.id}/detail`}/>
       </div>
 
     )
-  })
+  });
+
+  // const subCategoryList = subCategories.map((item, idx) => {
+  //   // <div className={`card-item ${idx === 0 ? "active" : ""}`} key={idx}>
+
+  //   return (
+  //     <div key={idx} className="col-sm-2 col-md-3 mt-4">
+  //       <CardProductDetail img={`${IMAGEPATH.Category}${item.imageUrl}`}
+  //         title={item.subcategoryName}
+  //         tips={item.tips}
+  //         // text={"Upto 10% Off"}
+  //         category={true}
+  //         // categoryId={}
+  //         to={`/category/${item.id}`} />
+  //     </div>
+
+  //   )
+  // });
+
+
 
   return (
     <React.Fragment>
@@ -147,53 +168,19 @@ const HomeView = () => {
               </div>
             </div>
           </div>
-          <div className="col-md-8">
+          <div className="col-md-12">
             <div className="container">
               <div className="row">
                 <div className="p-3 text-center mb-3">
                   <h2 class="m-4 text-section">Explore Sub Categories</h2>
                 </div>
 
-                {/* <div className="col-md-3">
-                    <Link to="/" className="text-decoration-none">
-                      <img
-                        src="../../images/category/male.webp"
-                        className="img-fluid rounded-circle"
-                        alt="..."
-                      />
-                      <div className="text-center h6">Men's Clothing</div>
-                    </Link>
-                  </div>
-                  <div className="col-md-3">
-                    <Link to="/" className="text-decoration-none">
-                      <img
-                        src="../../images/category/female.webp"
-                        className="img-fluid rounded-circle"
-                        alt="..."
-                      />
-                      <div className="text-center h6">Women's Clothing</div>
-                    </Link>
-                  </div>
-                  <div className="col-md-3">
-                    <Link to="/" className="text-decoration-none">
-                      <img
-                        src="../../images/category/smartwatch.webp"
-                        className="img-fluid rounded-circle"
-                        alt="..."
-                      />
-                      <div className="text-center h6">Smartwatch</div>
-                    </Link>
-                  </div>
-                  <div className="col-md-3">
-                    <Link to="/" className="text-decoration-none">
-                      <img
-                        src="../../images/category/footwear.webp"
-                        className="img-fluid rounded-circle"
-                        alt="..."
-                      />
-                      <div className="text-center h6">Footwear</div>
-                    </Link>
-                  </div> */}
+                <Carousel id="elect-product-detail">
+
+                    {/* {subCategoryList} */}
+
+                    <SubCategory/>
+                </Carousel>
               </div>
             </div>
           </div>

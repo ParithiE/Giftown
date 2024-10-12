@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import "./App.min.css";
 import { useDispatch } from "react-redux";
 import { fetchProducts } from "./reducers/product-thunk.ts";
+import SubCategory from "./views/SubCategory.tsx";
 //const Header = lazy(() => import("./components/Header"));
 //const TopMenu = lazy(() => import("./components/TopMenu"));
 const HomeView = lazy(() => import("./views/Home"));
@@ -70,8 +71,10 @@ function App() {
                     path="/account/notification"
                     element={<NotificationView />}
                   />
-                  <Route exact path="/category/:categoryId" element={<ProductListView />} />
-                  <Route exact path="/product/detail" element={<ProductDetailView />} />
+                 
+                  <Route exact path="/category/:categoryId/subCategoy" element={<SubCategory />} />
+                  <Route exact path="/subcategory/:subCategoryId/product" element={<ProductListView />} />
+                  <Route exact path="/product/:productId/detail" element={<ProductDetailView />} />
                   <Route exact path="/star/zone" element={<StarZoneView />} />
                   <Route exact path="/cart" element={<CartView />} />
                   <Route exact path="/checkout" element={<CheckoutView />} />

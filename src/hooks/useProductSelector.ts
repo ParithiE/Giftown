@@ -26,5 +26,16 @@ export const useProductSeletor = () => {
 
     }, [product]);
 
-    return{categories, trendingProducts};
+    const subCategories = useMemo(() => {
+        const uniqueSubCategory = product.products.reduce((acc, item) => {
+            const subCategory = item.subCategory;
+            if(!acc.some(sub => sub.id == subCategory.id)){
+                acc.push(subCategory);
+            }
+            return acc;
+        },[]);
+        return uniqueSubCategory;
+    }, [product]);
+
+    return{categories, subCategories, trendingProducts};
 }
