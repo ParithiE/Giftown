@@ -4,10 +4,10 @@ import { useMemo } from "react";
 
 
 export const useProductSeletor = () => {
-    const product = useSelector(selectAllProducts);
+    const productState = useSelector(selectAllProducts);
     const categories = useMemo(() => {
        
-        const uniquiCategories = product.products.reduce((acc, item)=> {
+        const uniquiCategories = productState.products.reduce((acc, item)=> {
             const category = item.category;
             if(!acc.some(cat => cat.id == category.id)){
                 acc.push(category);
@@ -15,19 +15,19 @@ export const useProductSeletor = () => {
             return acc;
         }, []);
         return uniquiCategories;
-    },[product]);
+    },[productState]);
 
     const trendingProducts = useMemo(() => {
-        if (!product || !Array.isArray(product.products)) {
+        if (!productState || !Array.isArray(productState.products)) {
             return []; // Return an empty array if products is undefined or not an array
         }
-        return product.products.filter((item) =>  item.productMetaData && item.productMetaData.isTrending
+        return productState.products.filter((item) =>  item.productMetaData && item.productMetaData.isTrending
         );
 
-    }, [product]);
+    }, [productState]);
 
     const subCategories = useMemo(() => {
-        const uniqueSubCategory = product.products.reduce((acc, item) => {
+        const uniqueSubCategory = productState.products.reduce((acc, item) => {
             const subCategory = item.subCategory;
             if(!acc.some(sub => sub.id == subCategory.id)){
                 acc.push(subCategory);
@@ -35,7 +35,9 @@ export const useProductSeletor = () => {
             return acc;
         },[]);
         return uniqueSubCategory;
-    }, [product]);
+    }, [productState]);
 
-    return{categories, subCategories, trendingProducts};
+    const products = productState.products;
+
+    return{products, categories, subCategories, trendingProducts};
 }

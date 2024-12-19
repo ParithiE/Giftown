@@ -401,3 +401,13 @@ button>img{
 /* .carousel-control-next-icon::after {
   transform: rotate(45deg); /* Adjust for right arrow 
 }  */
+
+input.is-valid {
+  border-color: initial !important;
+  box-shadow: none !important;
+}
+
+input.is-invalid {
+  border-color: #dc3545 !important;
+  box-shadow: none !important;
+}

@@ -14,3 +14,13 @@ export const fetchProducts = createAsyncThunk(
           };
     }
 );
+
+// export const fetchProductSizes = createAsyncThunk(
+//     "products/fetchProductSizes",
+//     async ({ productId, subCategoryId }) => {
+//         const response = await ApiService.get(
+//             `/products/${productId}/${subCategoryId}/sizes`
+//         );
+//         return response.data; // Assuming this returns the list of sizes
+//     }
+// );

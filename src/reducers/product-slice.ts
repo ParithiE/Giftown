@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchProducts } from "./product-thunk.ts";
-import { Product, ProductResponse } from "../types/Product";
+import { fetchProducts, fetchProductSizes } from "./product-thunk.ts";
+import { Product, ProductResponse, ProductSizeResponse, ProductSizes } from "../types/Product";
 
 export interface ProductsState {
     products: Array<Product>;
@@ -8,6 +8,15 @@ export interface ProductsState {
     totalElements: number;
     loadingState: any;
 }
+
+// export interface ProductSizeState {
+//    productSizes: Array<ProductSizes>
+// }
+
+// export const initialProductSizesState: ProductSizeState = {
+//     productSizes: [],
+// };
+
 
 export const initialState: ProductsState = {
     products: [],
@@ -28,19 +37,45 @@ export const productsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchProducts.pending, (state) => {
+            console.log("Pending");
              state.loadingState = true;
         });
         builder.addCase(fetchProducts.fulfilled, (state, action: PayloadAction<ProductResponse>) => {
+            console.log("Fullfilled");
             state.products = action.payload.items;
             state.pagesCount = action.payload.pagesCount;
             state.totalElements = action.payload.totalElements;
             state.loadingState = false;
         });
         builder.addCase(fetchProducts.rejected, (state) => {
+            console.log("Rejected");
             //state.loadingState = LoadingStatus.FAILED;
         });
     },
 });
+
+
+// export const productSizesSlice = createSlice({
+//     name: "productSizes",
+//     initialState: initialProductSizesState,
+//     reducers: {
+//         setProductSizes(state, action: PayloadAction<Array<ProductSizes>>) {
+//             state.productSizes = action.payload;
+//         },
+//         resetProductSizesState: () => initialProductSizesState,
+//         extraReducers: (builder) => {
+//             builder.addCase(fetchProductSizes.pending, (state) => {
+//                  state.loadingState = true;
+//             });
+//             builder.addCase(fetchProductSizes.fulfilled, (state, action: PayloadAction<ProductSizeResponse>) => {
+//                 state.productSizes = action.payload.items;
+//             });
+//             builder.addCase(fetchProductSizes.rejected, (state) => {
+//                 //state.loadingState = LoadingStatus.FAILED;
+//             });
+//         },
+//     },
+// });
 
 export const { setProducts, resetProductsState } = productsSlice.actions;
 export default productsSlice.reducer;

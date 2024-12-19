@@ -36,6 +36,7 @@ const HomeView = () => {
   );
   // map the rows as div.row
   const carouselContent = categoryRow.map((row, idx) => {
+    console.log("Home view");
     return (
       <div className={`carousel-item ${idx === 0 ? "active" : ""}`} key={idx}>
         <div className="row g-3">

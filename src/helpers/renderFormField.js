@@ -17,7 +17,7 @@ const renderFormField = (props) => {
           {label}
         </label>
       )}
-      <input {...input} {...props} id={input.name} className="form-control" />
+      <input {...input} id={input.name} className="form-control" />
       {tips && <div className="form-text">{tips}</div>}
       {touched &&
         ((error && <div className="invalid-feedback">{error}</div>) ||

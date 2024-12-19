@@ -19,13 +19,12 @@ const SignInForm = (props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={`needs-validation ${submitFailed ? "was-validated" : ""}`}
       noValidate
     >
       <Field
         name="mobileNo"
         type="number"
-        label="Mobile no"
+        // label="Mobile no"
         component={renderFormGroupField}
         placeholder="Mobile no without country code"
         icon={IconPhone}
@@ -38,7 +37,7 @@ const SignInForm = (props) => {
       <Field
         name="password"
         type="password"
-        label="Your password"
+        // label="Your password"
         component={renderFormGroupField}
         placeholder="******"
         icon={IconShieldLock}

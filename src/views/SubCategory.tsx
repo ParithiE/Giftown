@@ -5,9 +5,10 @@ import { IMAGEPATH } from "../constants/CommonConstant.ts";
 
 const SubCategory = () => {
     const { categoryId } = useParams();
-    const { subCategories } = useProductSeletor();
+    const { categories , subCategories } = useProductSeletor();
 
     const filteredSubCategories = categoryId ? subCategories.filter((item) => item.categoryId == categoryId) : subCategories;
+    const filteredCategories = categoryId && categories.filter((item) => item.id == categoryId)
 
     // const products = data.products;
     const rows = [...Array(Math.ceil(filteredSubCategories.length / 8))];
@@ -20,7 +21,7 @@ const SubCategory = () => {
         
         <div>
             <h2 className="text-center">
-        {categoryId ? `Subcategories for Category ${categoryId}` : 'Explore Subcategories'}
+        {categoryId ? `Subcategories for ${filteredCategories[0].categoryname}` : 'Explore Subcategories'}
       </h2>
        { subCategoryRow.map((row, idx) => {
             return (

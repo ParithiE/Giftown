@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useEffect } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -8,20 +8,22 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import "./App.min.css";
 import { useDispatch } from "react-redux";
-import { fetchProducts } from "./reducers/product-thunk.ts";
+import { fetchProducts, fetchProductSizes } from "./reducers/product-thunk.ts";
 import SubCategory from "./views/SubCategory.tsx";
+import AuthModal from "./views/account/AuthModal.tsx";
+import OtpAuthView from "./views/account/OtpAuthView.tsx";
 //const Header = lazy(() => import("./components/Header"));
 //const TopMenu = lazy(() => import("./components/TopMenu"));
 const HomeView = lazy(() => import("./views/Home"));
 const SignInView = lazy(() => import("./views/account/SignIn"));
-const SignUpView = lazy(() => import("./views/account/SignUp"));
+// const SignUpView = lazy(() => import("./views/account/SignUp"));
 const ForgotPasswordView = lazy(() => import("./views/account/ForgotPassword"));
 const OrdersView = lazy(() => import("./views/account/Orders"));
 const WishlistView = lazy(() => import("./views/account/Wishlist"));
 const NotificationView = lazy(() => import("./views/account/Notification"));
 const MyProfileView = lazy(() => import("./views/account/MyProfile"));
 const ProductListView = lazy(() => import("./views/product/List"));
-const ProductDetailView = lazy(() => import("./views/product/Detail"));
+const ProductDetailView = lazy(() => import("./views/product/Detail.tsx"));
 const StarZoneView = lazy(() => import("./views/product/StarZone"));
 const CartView = lazy(() => import("./views/cart/Cart"));
 const CheckoutView = lazy(() => import("./views/cart/Checkout"));
@@ -36,13 +38,12 @@ const BlogDetailView = lazy(() => import("./views/blog/Detail"));
 
 
 function App() {
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(fetchProducts())
-  }, [dispatch]);
+    dispatch(fetchProducts());
+  },[dispatch]);
   return (
-    <BrowserRouter>
+    // <BrowserRouter>
       <React.Fragment>
         <Header />
         {/* <TopMenu /> */}
@@ -57,7 +58,7 @@ function App() {
                 <Routes>
                   <Route exact path="/" element={<HomeView />} />
                   <Route exact path="/account/signin" element={<SignInView />} />
-                  <Route exact path="/account/signup" element={<SignUpView />} />
+                  <Route exact path="/account/signup" element={<AuthModal />} />
                   <Route
                     exact
                     path="/account/forgotpassword"
@@ -93,7 +94,7 @@ function App() {
         </div>
         <Footer />
       </React.Fragment>
-    </BrowserRouter>
+    // </BrowserRouter>
   );
 }
 

@@ -14,45 +14,37 @@ import {
 } from "../../helpers/validation";
 import { ReactComponent as IconPhone } from "bootstrap-icons/icons/phone.svg";
 import { ReactComponent as IconShieldLock } from "bootstrap-icons/icons/shield-lock.svg";
+import { ReactComponent as IconUser } from "bootstrap-icons/icons/person.svg";
+
+import { useState } from "react";
 
 const SignUpForm = (props) => {
   const { handleSubmit, submitting, onSubmit, submitFailed } = props;
+ // const [formData, setFormData] = useState({name: "w", phone: "", password: ""});
+
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={`needs-validation ${submitFailed ? "was-validated" : ""}`}
       noValidate
     >
-      <div className="row mb-3">
-        <div className="col-md-6">
           <Field
-            name="firstName"
+            name="username"
             type="text"
-            label="First Name"
-            component={renderFormField}
-            placeholder="First Name"
+            // label="First Name"
+            component={renderFormGroupField}
+            placeholder="Username"
             validate={[required, name]}
             required={true}
+            className="mb-3"
+            icon={IconUser}
           />
-        </div>
-        <div className="col-md-6">
-          <Field
-            name="lastName"
-            type="text"
-            label="Last Name"
-            component={renderFormField}
-            placeholder="Last Name"
-            validate={[required, name]}
-            required={true}
-          />
-        </div>
-      </div>
       <Field
-        name="mobileNo"
+        name="phoneNumber"
         type="number"
-        label="Mobile no"
+        // label="Mobile no"
         component={renderFormGroupField}
-        placeholder="Mobile no without country code"
+        placeholder="Mobile No without country code"
         icon={IconPhone}
         validate={[required, maxLengthMobileNo, minLengthMobileNo, digit]}
         required={true}
@@ -63,9 +55,9 @@ const SignUpForm = (props) => {
       <Field
         name="password"
         type="password"
-        label="Your password"
+        // label="Password"
         component={renderFormGroupField}
-        placeholder="******"
+        placeholder="Password"
         icon={IconShieldLock}
         validate={[required, maxLength20, minLength8]}
         required={true}
@@ -82,19 +74,19 @@ const SignUpForm = (props) => {
           Create
         </button>
       </div>
-      <Link className="float-start" to="/account/signin" title="Sign In">
-        Sing In
-      </Link>
-      <Link
+      {/* <Link className="float-start" to="/account/signin" title="Sign In">
+        Already an User ? Login Here!!
+      </Link> */}
+      {/* <Link
         className="float-end"
         to="/account/forgotpassword"
         title="Forgot Password"
       >
         Forgot password?
-      </Link>
-      <div className="clearfix"></div>
-      <hr></hr>
-      <div className="row">
+      </Link> */}
+      {/* <div className="clearfix"></div> */}
+      {/* <hr></hr> */}
+      {/* <div className="row">
         <div className="col- text-center">
           <p className="text-muted small">Or you can join with</p>
         </div>
@@ -109,7 +101,7 @@ const SignUpForm = (props) => {
             <i className="bi bi-google mx-1" />
           </Link>
         </div>
-      </div>
+      </div> */}
     </form>
   );
 };

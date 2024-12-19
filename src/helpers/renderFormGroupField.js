@@ -1,4 +1,5 @@
 import React from "react";
+import "./../App.css"
 //export default function renderFormGroupField({
 const renderFormGroupField = (props) => {
   const {
@@ -7,6 +8,7 @@ const renderFormGroupField = (props) => {
     tips,
     required,
     meta: { touched, error, warning },
+    ...restProps
   } = props;
   const Icon = props.icon;
   return (
@@ -24,7 +26,8 @@ const renderFormGroupField = (props) => {
         <span className="input-group-text">
           <Icon />
         </span>
-        <input {...input} {...props} id={input.name} className="form-control" />
+        <input {...input} {...restProps} id={input.name} className={`form-control ${ touched && error ? "is-invalid" : ""}  ${
+        touched && !error ? "is-valid" : ""}`}/>
         {touched &&
           ((error && <div className="invalid-feedback">{error}</div>) ||
             (warning && <span>{warning}</span>))}

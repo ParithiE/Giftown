@@ -1,7 +1,11 @@
-export const required = (value) =>
-  value || (typeof value == "number" && value === 0)
+export const required = (value) =>{
+  console.log("Value received for validation:", value
+    ? undefined
+    : "This field is required");
+ return value && value.trim() !== ""
     ? undefined
     : "This field is required";
+}
 export const number = (value) =>
   value && isNaN(Number(value)) ? "Must be a number" : undefined;
 export const digit = (value) =>

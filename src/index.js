@@ -5,6 +5,7 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { store } from "./store.ts";
+import { BrowserRouter as Router } from "react-router-dom";
 // const persistedState = loadState();
 // const store = createStore(rootReducer, persistedState);
 
@@ -14,7 +15,9 @@ import { store } from "./store.ts";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
+    <Router>
     <App />
+    </Router>
   </Provider>
 );
 

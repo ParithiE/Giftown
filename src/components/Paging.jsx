@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 const LEFT_PAGE = "LEFT";
@@ -7,80 +7,60 @@ const RIGHT_PAGE = "RIGHT";
 const range = (from, to, step = 1) => {
   let i = from;
   const range = [];
-
   while (i <= to) {
     range.push(i);
     i += step;
   }
-
   return range;
 };
 
-class Paging extends Component {
-  constructor(props) {
-    super();
-    const {
-      totalRecords = null,
-      pageLimit = 30,
-      pageNeighbours = 0,
-      sizing = "",
-      alignment = "",
-    } = props;
-    this.sizing = typeof sizing === "string" ? sizing : "";
-    this.alignment = typeof alignment === "string" ? alignment : "";
-    this.pageLimit = typeof pageLimit === "number" ? pageLimit : 30;
-    this.totalRecords = typeof totalRecords === "number" ? totalRecords : 0;
+const Paging = ({
+  totalRecords,
+  pageLimit = 30,
+  pageNeighbours = 0,
+  sizing = "",
+  alignment = "",
+  onPageChanged = () => {},
+}) => {
+  const totalPages = Math.ceil(totalRecords / pageLimit);
+  const [currentPage, setCurrentPage] = useState(1);
 
-    this.pageNeighbours =
-      typeof pageNeighbours === "number"
-        ? Math.max(0, Math.min(pageNeighbours, 2))
-        : 0;
-
-    this.totalPages = Math.ceil(this.totalRecords / this.pageLimit);
-
-    this.state = { currentPage: 1 };
-  }
-
-  componentDidMount() {
-    this.gotoPage(1);
-  }
-
-  gotoPage = (page) => {
-    const { onPageChanged = (f) => f } = this.props;
-
-    const currentPage = Math.max(0, Math.min(page, this.totalPages));
+  const gotoPage = (page) => {
+    const newPage = Math.max(0, Math.min(page, totalPages));
 
     const paginationData = {
-      currentPage,
-      totalPages: this.totalPages,
-      pageLimit: this.pageLimit,
-      totalRecords: this.totalRecords,
+      currentPage: newPage,
+      totalPages,
+      pageLimit,
+      totalRecords,
     };
 
-    this.setState({ currentPage }, () => onPageChanged(paginationData));
+    setCurrentPage(newPage);
+    onPageChanged(paginationData);
   };
 
-  handleClick = (page, evt) => {
+  useEffect(() => {
+    gotoPage(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [totalRecords, pageLimit]);
+
+  const handleClick = (page, evt) => {
     evt.preventDefault();
-    this.gotoPage(page);
+    gotoPage(page);
   };
 
-  handleMoveLeft = (evt) => {
+  const handleMoveLeft = (evt) => {
     evt.preventDefault();
-    this.gotoPage(this.state.currentPage - this.pageNeighbours * 2 - 1);
+    gotoPage(currentPage - pageNeighbours * 2 - 1);
   };
 
-  handleMoveRight = (evt) => {
+  const handleMoveRight = (evt) => {
     evt.preventDefault();
-    this.gotoPage(this.state.currentPage + this.pageNeighbours * 2 + 1);
+    gotoPage(currentPage + pageNeighbours * 2 + 1);
   };
 
-  fetchPageNumbers = () => {
-    const totalPages = this.totalPages;
-    const currentPage = this.state.currentPage;
-    const pageNeighbours = this.pageNeighbours;
-
-    const totalNumbers = this.pageNeighbours * 2 + 3;
+  const fetchPageNumbers = () => {
+    const totalNumbers = pageNeighbours * 2 + 3;
     const totalBlocks = totalNumbers + 2;
 
     if (totalPages > totalBlocks) {
@@ -120,67 +100,62 @@ class Paging extends Component {
     return range(1, totalPages);
   };
 
-  render() {
-    if (!this.totalRecords) return null;
+  if (!totalRecords || totalPages === 1) return null;
 
-    if (this.totalPages === 1) return null;
+  const pages = fetchPageNumbers();
 
-    const { currentPage } = this.state;
-    const pages = this.fetchPageNumbers();
-
-    return (
-      <nav aria-label="Page navigation">
-        <ul className={`pagination ${this.sizing} ${this.alignment}`}>
-          {pages.map((page, index) => {
-            if (page === LEFT_PAGE)
-              return (
-                <li key={index} className="page-item">
-                  <button
-                    className="page-link"
-                    aria-label="Previous"
-                    onClick={this.handleMoveLeft}
-                  >
-                    <span aria-hidden="true">&laquo;</span>
-                    <span className="sr-only">Previous</span>
-                  </button>
-                </li>
-              );
-
-            if (page === RIGHT_PAGE)
-              return (
-                <li key={index} className="page-item">
-                  <a
-                    className="page-link"
-                    href="#!"
-                    aria-label="Next"
-                    onClick={this.handleMoveRight}
-                  >
-                    <span aria-hidden="true">&raquo;</span>
-                    <span className="sr-only">Next</span>
-                  </a>
-                </li>
-              );
-
+  return (
+    <nav aria-label="Page navigation">
+      <ul className={`pagination ${sizing} ${alignment}`}>
+        {pages.map((page, index) => {
+          if (page === LEFT_PAGE)
             return (
-              <li
-                key={index}
-                className={`page-item${currentPage === page ? " active" : ""}`}
-              >
+              <li key={index} className="page-item">
+                <button
+                  className="page-link"
+                  aria-label="Previous"
+                  onClick={handleMoveLeft}
+                >
+                  <span aria-hidden="true">&laquo;</span>
+                  <span className="sr-only">Previous</span>
+                </button>
+              </li>
+            );
+
+          if (page === RIGHT_PAGE)
+            return (
+              <li key={index} className="page-item">
                 <a
                   className="page-link"
                   href="#!"
-                  onClick={(e) => this.handleClick(page, e)}
+                  aria-label="Next"
+                  onClick={handleMoveRight}
                 >
-                  {page}
+                  <span aria-hidden="true">&raquo;</span>
+                  <span className="sr-only">Next</span>
                 </a>
               </li>
             );
-          })}
-        </ul>
-      </nav>
-    );
-  }
-}
+
+          return (
+            <li
+              key={index}
+              className={`page-item${currentPage === page ? " active" : ""}`}
+            >
+              <a
+                className="page-link"
+                href="#!"
+                onClick={(e) => handleClick(page, e)}
+              >
+                {page}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
+};
 
 Paging.propTypes = {
   totalRecords: PropTypes.number.isRequired,
@@ -188,6 +163,7 @@ Paging.propTypes = {
   pageNeighbours: PropTypes.number,
   onPageChanged: PropTypes.func,
   sizing: PropTypes.string,
+  alignment: PropTypes.string,
 };
 
 export default Paging;

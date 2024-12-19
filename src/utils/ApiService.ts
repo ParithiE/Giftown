@@ -14,9 +14,9 @@ class ApiService {
     static async post<T>(url: string, data: any, config?: AxiosRequestConfig): Promise<T> {
         try {
             const response = await axios.post(`${API_BASE_URL}${url}`, data, config);
-            return response.data;
+            return {data: response.data, headers: response.headers};
         } catch (error) {
-            throw new Error(`POST request failed: ${error}`);
+            throw new Error(`${error.response.data}`);
         }
     }
 

@@ -5,6 +5,12 @@ export interface ProductResponse {
     totalElements: number;
 }
 
+export interface ProductSizeResponse {
+  items: Array<ProductSizes>;
+}
+
+
+
 
 export interface ProductReviewResponseModel {
     rating: number;
@@ -35,4 +41,10 @@ export interface ProductReviewResponseModel {
     availability: boolean;
     reviews: Array<ProductReviewResponseModel>;
     sizes: Array<ProductSizeResponseModel>;
+  }
+
+  export interface ProductSizes {
+    id: number,
+    size: string,
+    additionalPrice: string
   }
