@@ -6,7 +6,7 @@
 }
 
 .section{
-  background-color: #f2f2f2;
+  background-color: white;
 }
 .required:after {
   content: " *";
@@ -103,6 +103,15 @@
 
 .bg-primary-v1{
   background-color: var(--primary-color-v1) !important;
+}
+
+.bg-primary-image{
+  background-image: var(--primary-color) !important;
+}
+
+
+.bg-primary-v1-image{
+  background-image: var(--primary-color-v1) !important;
 }
 
 .bg-secondary{
@@ -410,4 +419,40 @@ input.is-valid {
 input.is-invalid {
   border-color: #dc3545 !important;
   box-shadow: none !important;
+}
+
+
+.search-overlay {
+  animation: fadeIn 0.3s ease-in-out;
+  backdrop-filter: blur(5px);
+}
+
+/* Ensures table is scrollable on small screens */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Fix for tbody alignment issues */
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+/* Ensures the table doesn't shrink */
+.table {
+  min-width: 600px; /* Adjust as needed */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

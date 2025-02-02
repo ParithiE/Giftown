@@ -12,6 +12,7 @@ import { fetchProducts, fetchProductSizes } from "./reducers/product-thunk.ts";
 import SubCategory from "./views/SubCategory.tsx";
 import AuthModal from "./views/account/AuthModal.tsx";
 import OtpAuthView from "./views/account/OtpAuthView.tsx";
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
 //const Header = lazy(() => import("./components/Header"));
 //const TopMenu = lazy(() => import("./components/TopMenu"));
 const HomeView = lazy(() => import("./views/Home"));
@@ -57,16 +58,13 @@ function App() {
               >
                 <Routes>
                   <Route exact path="/" element={<HomeView />} />
-                  <Route exact path="/account/signin" element={<SignInView />} />
+                  <Route exact path="/account/signin" element={<AuthModal />} />
                   <Route exact path="/account/signup" element={<AuthModal />} />
                   <Route
                     exact
                     path="/account/forgotpassword"
                     element={<ForgotPasswordView />}
                   />
-                  <Route exact path="/account/profile" element={<MyProfileView />} />
-                  <Route exact path="/account/orders" element={<OrdersView />} />
-                  <Route exact path="/account/wishlist" element={<WishlistView />} />
                   <Route
                     exact
                     path="/account/notification"
@@ -77,8 +75,53 @@ function App() {
                   <Route exact path="/subcategory/:subCategoryId/product" element={<ProductListView />} />
                   <Route exact path="/product/:productId/detail" element={<ProductDetailView />} />
                   <Route exact path="/star/zone" element={<StarZoneView />} />
-                  <Route exact path="/cart" element={<CartView />} />
-                  <Route exact path="/checkout" element={<CheckoutView />} />
+                
+                  {/* Protected Routes */}
+                  <Route
+                    exact
+                    path="/account/profile"
+                    element={
+                      <ProtectedRoute>
+                        <MyProfileView />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/account/orders"
+                    element={
+                      <ProtectedRoute>
+                        <OrdersView />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/account/wishlist"
+                    element={
+                      <ProtectedRoute>
+                        <WishlistView />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/account/cart"
+                    element={
+                      <ProtectedRoute>
+                        <CartView />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    exact
+                    path="/account/checkout"
+                    element={
+                      <ProtectedRoute>
+                        <CheckoutView />
+                      </ProtectedRoute>
+                    }
+                  />
                   <Route exact path="/invoice" element={<InvoiceView />} />
                   <Route exact path="/documentation" element={<DocumentationView />} />
                   <Route exact path="/contact-us" element={<ContactUsView />} />

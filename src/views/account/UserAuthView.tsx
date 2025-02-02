@@ -1,58 +1,65 @@
 import React, { lazy, useState, FC } from "react";
 import { useNavigate } from "react-router-dom";
 import ApiService from "../../utils/ApiService.ts";
-import { REGISTER,  } from "../../constants/apiConstants.ts";
+import { LOGIN, REGISTER,  } from "../../constants/apiConstants.ts";
 import SignInForm from "../../components/account/SignInForm.jsx";
 import OtpAuthView from "./OtpAuthView.tsx";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../reducers/user/user-slice.ts";
 
 // Lazy loading for better performance
 const SignUpForm = lazy(() => import("../../components/account/SignUpForm.jsx"));
 
-// TypeScript Types for Props
+// TypeScript Props Interface
 interface UserAuthViewProps {
   setShow?: (show: boolean) => void;
+  setActiveTab?: (tab: "signin" | "signup" | "otp") => void;
   register?: boolean;
   login?: boolean;
+  redirectTo?: string;
 }
 
-const UserAuthView: FC<UserAuthViewProps> = ({ setShow = () => {}, register = false, login = false }) => {
-  const [showOtpView, setShowOtpView] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState<string | null>(null);
-
+const UserAuthView: FC<UserAuthViewProps> = ({ setShow = () => {}, setActiveTab = () => {}, register = false, login = false, redirectTo = "" }) => {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
   // Register User Handler
-  const handleRegister = async (values: { username: string; password: string; phoneNumber: string }) => {
+   // Register Handler
+   const handleRegister = async (values: { username: string; password: string; phoneNumber: string }) => {
     try {
-      const { data } = await ApiService.post(REGISTER, {
-        username: values.username,
-        password: values.password,
-        phoneNumber: values.phoneNumber,
-      });
+      // Simulate API call
+      // const { data } = await ApiService.post(REGISTER, values);
 
-      if (data) {
-        
-      }
+      // Navigate to OTP on successful registration
+      setActiveTab("otp");
     } catch (error: any) {
       console.error("Registration Error:", error.message);
       alert("Failed to register. Please try again.");
-    }
-  };
-
+    }}
   // Login User Handler
-  const handleLogin = async (values: { username: string; password: string }) => {
-    // try {
-    //   const { data } = await ApiService.post(LOGIN, {
-    //     username: values.username,
-    //     password: values.password,
-    //   });
-
-    //   if (data) {
-    //     // Handle post-login actions here
-    //     alert("Login successful!");
-    //   }
-    // } catch (error: any) {
-    //   console.error("Login Error:", error.message);
-    //   alert("Failed to login. Please check your credentials.");
-    // }
+  const handleLogin = async (values: { mobileNo: number; password?: string }) => {
+    try {
+      if(values.password){
+        const { data } = await ApiService.post(LOGIN, {
+          phoneNumber: values.mobileNo,
+          password: values.password,
+        });
+        if (data?.token) {
+          // Store token in localStorage
+          // dispatch(setUser(data));
+            // Save to localStorage
+          localStorage.setItem("user", JSON.stringify(data));
+          setShow(false);
+          navigate(redirectTo);
+      }
+    }
+      else {
+        setActiveTab("otp");
+      }
+      
+    } catch (error: any) {
+      console.error("Login Error:", error.message);
+      alert("Failed to login. Please check your credentials.");
+    }
   };
 
   // Render Component

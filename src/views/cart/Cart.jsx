@@ -1,5 +1,9 @@
-import { lazy } from "react";
+import { lazy, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Alert, Button } from 'react-bootstrap';
+import CartService from "../../utils/CartService.ts";
+import "../../App.css"
+
 const CouponApplyForm = lazy(() =>
   import("../../components/others/CouponApplyForm")
 );
@@ -8,6 +12,24 @@ const CartView = () => {
   const onSubmitApplyCouponCode = async (values) => {
     alert(JSON.stringify(values));
   };
+  const [cart, setCart] = useState(null);
+  const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    // Fetch cart data from API
+    const fetchCart = async () => {
+      const response = await CartService.fetchCart();
+      if (response) {
+        setCart(response);
+      }
+    };
+
+    fetchCart();
+  }, []);
+
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
   return (
     <div>
       <div className="bg-secondary border-top p-4 text-white mb-3">
@@ -18,138 +40,86 @@ const CartView = () => {
           <div className="col-md-9">
             <div className="card">
               <div className="table-responsive">
-                <table className="table table-borderless">
-                  <thead className="text-muted">
-                    <tr className="small text-uppercase">
-                      <th scope="col">Product</th>
-                      <th scope="col" width={120}>
-                        Quantity
-                      </th>
-                      <th scope="col" width={150}>
-                        Price
-                      </th>
-                      <th scope="col" className="text-end" width={130}></th>
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th>Quantity</th>
+                      <th>Price</th>
+                      <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>
-                        <div className="row">
-                          <div className="col-3 d-none d-md-block">
-                            <img
-                              src="../../images/products/tshirt_red_480x400.webp"
-                              width="80"
-                              alt="..."
-                            />
-                          </div>
-                          <div className="col">
-                            <Link
-                              to="/product/detail"
-                              className="text-decoration-none"
-                            >
-                              Another name of some product goes just here
-                            </Link>
-                            <p className="small text-muted">
-                              Size: XL, Color: blue, Brand: XYZ
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="input-group input-group-sm mw-140">
-                          <button
-                            className="btn btn-primary text-white"
-                            type="button"
-                          >
-                            <i className="bi bi-dash-lg"></i>
-                          </button>
-                          <input
-                            type="text"
-                            className="form-control"
-                            defaultValue="1"
-                          />
-                          <button
-                            className="btn btn-primary text-white"
-                            type="button"
-                          >
-                            <i className="bi bi-plus-lg"></i>
-                          </button>
-                        </div>
-                      </td>
-                      <td>
-                        <var className="price">$237.00</var>
-                        <small className="d-block text-muted">
-                          $79.00 each
-                        </small>
-                      </td>
-                      <td className="text-end">
-                        <button className="btn btn-sm btn-outline-secondary me-2">
-                          <i className="bi bi-heart-fill"></i>
-                        </button>
-                        <button className="btn btn-sm btn-outline-danger">
-                          <i className="bi bi-trash"></i>
-                        </button>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div className="row">
-                          <div className="col-3 d-none d-md-block">
-                            <img
-                              src="../../images/products/tshirt_grey_480x400.webp"
-                              width="80"
-                              alt="..."
-                            />
-                          </div>
-                          <div className="col">
-                            <Link
-                              to="/product/detail"
-                              className="text-decoration-none"
-                            >
-                              Another name of some product goes just here
-                            </Link>
-                            <p className="small text-muted">
-                              Size: XL, Color: blue, Brand: XYZ
-                            </p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="input-group input-group-sm mw-140">
-                          <button
-                            className="btn btn-primary text-white"
-                            type="button"
-                          >
-                            <i className="bi bi-dash-lg"></i>
-                          </button>
-                          <input
-                            type="text"
-                            className="form-control"
-                            defaultValue="1"
-                          />
-                          <button
-                            className="btn btn-primary text-white"
-                            type="button"
-                          >
-                            <i className="bi bi-plus-lg"></i>
-                          </button>
-                        </div>
-                      </td>
-                      <td>
-                        <var className="price">$237.00</var>
-                        <small className="d-block text-muted">
-                          $79.00 each
-                        </small>
-                      </td>
-                      <td className="text-end">
-                        <button className="btn btn-sm btn-outline-secondary me-2">
-                          <i className="bi bi-heart-fill"></i>
-                        </button>
-                        <button className="btn btn-sm btn-outline-danger">
-                          <i className="bi bi-trash"></i>
-                        </button>
-                      </td>
-                    </tr>
+                    {cart?.cartItems?.map((item) => {
+                      let customFields = {};
+                      try {
+                        customFields = JSON.parse(item.customFields);
+                      } catch (error) {
+                        console.error("Invalid JSON in customFields:", error);
+                      }
+
+                      return (
+                        <tr key={item.id}>
+                          <td>
+                            <div className="row align-items-center">
+                              <div className="col-3 ">
+                                {item.imageUrls && item.imageUrls.length > 0 ? (
+                                  <img src={item.imageUrls[0]} width="80" alt="Uploaded by user" className="img-fluid" />
+                                ) : (
+                                  <img src="../../images/placeholder.jpg" width="80" alt="No image available" className="img-fluid" />
+                                )}
+                              </div>
+                              <div className="col">
+                                <Link to={`/product/detail/${item.productId}`} className="text-decoration-none">
+                                  Product ID: {item.productId}
+                                </Link>
+                                <p className="small text-muted"><strong>Size:</strong> {item.size}</p>
+                                <span className="d-flex">
+                                {customFields &&
+                                  Object.entries(customFields).map(([key, value]) => (
+                                    <p key={key} className="small text-muted" style={{marginRight: "10px"}}>
+                                      <strong>Custom {key}:</strong> {value}
+                                    </p>
+                                  ))}
+
+                                </span>
+                               
+                                {item.imageUrls && item.imageUrls.length > 1 && (
+                                  <div className="d-flex  mt-2">
+                                    {item.imageUrls.map((url, index) => (
+                                      <img key={index} src={url} width="50" className="me-2 img-thumbnail" alt="User uploaded" />
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="input-group input-group-sm mw-140">
+                              <button className="btn btn-primary text-white" type="button">
+                                <i className="bi bi-dash-lg"></i>
+                              </button>
+                              <input type="text" className="form-control text-center" value={item.quantity} readOnly />
+                              <button className="btn btn-primary text-white" type="button">
+                                <i className="bi bi-plus-lg"></i>
+                              </button>
+                            </div>
+                          </td>
+                          <td>
+                            <var className="price">$237.00</var>
+                            <small className="d-block text-muted">$79.00 each</small>
+                          </td>
+                          <td className="text-end">
+                            <button className="btn btn-sm btn-outline-secondary me-2">
+                              <i className="bi bi-heart-fill"></i>
+                            </button>
+                            <button className="btn btn-sm btn-outline-danger">
+                              <i className="bi bi-trash"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -230,8 +200,24 @@ const CartView = () => {
           </p>
         </div>
       </div>
+
+      <div className="container mt-4">
+        <Button variant="primary" onClick={handleShow}>
+          Show Alert
+        </Button>
+
+        {show && (
+          <Alert variant="success" onClose={handleClose} dismissible className="mt-3">
+            <Alert.Heading>Success!</Alert.Heading>
+            <p>
+              This is a React-Bootstrap 5 alert. It comes with a dismiss button to close the alert.
+            </p>
+          </Alert>
+        )}
+      </div>
     </div>
   );
 };
 
 export default CartView;
+

@@ -19,10 +19,7 @@ import { ReactComponent as IconUser } from "bootstrap-icons/icons/person.svg";
 import { useState } from "react";
 
 const SignUpForm = (props) => {
-  const { handleSubmit, submitting, onSubmit, submitFailed } = props;
- // const [formData, setFormData] = useState({name: "w", phone: "", password: ""});
-
-
+  const { handleSubmit, submitting, onSubmit } = props; // needs to change
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}

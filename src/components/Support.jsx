@@ -39,31 +39,29 @@ const Support = (props) => {
     // </div>
 
     <div class="container">
-  <div class="row no-gutters">
-    <div class="col-md-4">
-      <div class="card bg-dark overflow-hidden">
-       <span className="zoom-img">
+  <div class="row no-gutters ">
+    <div class="col-md-6 overflow-hidden">
+      <div class="card zoom-img">
        <img
-          src="https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner3.jpg"
+          src="../../images/banner/Bestie-mini.jpg"
           class="card-img-top "
           alt="Shop Online Gifts Under $19.99"
         />
-       </span> 
         <div class="card-img-overlay d-flex flex-column justify-content-evenly text-center h-70">
           <h5 className="mt-auto">Shop Online Gifts Under</h5>
           <h2 class="card-title mt-auto">$19.99</h2>
-          <a href="https://demo2.themelexus.com/gifymo/shop/" class="animated-button">
+          <a href="../../images/banner/couple-small.jpg" class="animated-button">
             Shop Now
           </a>
         </div>
       </div>
     </div>
     
-    <div class="col-md-8">
-      <div class="card bg-dark overflow-hidden">
+    <div class="col-md-6 overflow-hidden">
+      <div class="card  zoom-img">
         <img
-          src="https://demo2.themelexus.com/gifymo/wp-content/uploads/2021/05/h1-banner4.jpg"
-          class="card-img zoom-img"
+          src="../../images/banner/couple-small.jpg"
+          class="card-img"
           alt="30% Off home decor"
         />
         <div class="card-img-overlay d-flex flex-column justify-content-evenly text-center h-70">

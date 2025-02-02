@@ -22,6 +22,7 @@ store.subscribe(() => {
   saveState({
     products: store.getState().products, // Persist only the 'products' slice of state (adjust as needed)
   });
+  
 });
 
 

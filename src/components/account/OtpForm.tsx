@@ -7,9 +7,10 @@ import {
 } from "../../helpers/validation";
 import { compose } from 'redux';
 
-const OtpForm = ({ onSubmit }) => {
+const OtpForm = (props ) => {
+  const { handleSubmit, submitting, onSubmit } = props;
     return (
-      <form onSubmit={onSubmit} noValidate>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <Field
           name="otp"
           type="number"
@@ -24,6 +25,7 @@ const OtpForm = ({ onSubmit }) => {
         <button
           type="submit"
           className="btn btn-primary mb-3"
+          disabled={submitting}
         >
           Submit
         </button>

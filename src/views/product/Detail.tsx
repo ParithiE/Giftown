@@ -1,9 +1,11 @@
 import { lazy, useCallback, useEffect, useState } from "react";
 import { data } from "../../data/index.js";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useProductSeletor } from "../../hooks/useProductSelector.ts";
 import ApiService from "../../utils/ApiService.ts";
-import { PRODUCTS } from "../../constants/apiConstants.ts";
+import { ADD_TO_CART, PRODUCTS } from "../../constants/apiConstants.ts";
+import ImageUploader from "../../components/ImageUploader.tsx";
+import CartService from "../../utils/CartService.ts";
 const CardFeaturedProduct = lazy(() =>
   import("../../components/card/CardFeaturedProduct.jsx")
 );
@@ -33,10 +35,14 @@ const ProductDetailView = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [cartCount, setCartCount] = useState<number>(1);
+  const [selectedFields, setSelectedFields] = useState({}); // Track other product fields
+  const [errorMessages, setErrorMessages] = useState([]); // Store error messages
+  const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const navigate = useNavigate();
 
-
-
-
+ 
+ 
+  
   const product = products.find((item) => item.id === parseInt(productId));
  // setProduct(product);
   // Fetch the product details based on productId
@@ -67,6 +73,82 @@ const ProductDetailView = () => {
     fetchProductDetails();
   }, [fetchProductDetails]);
 
+  const handleImagesChange = (images: File[]) => {
+    setUploadedImages(images);
+    if(images.length > 0){
+      const errors = {};
+    setErrorMessages(errors);
+    } else {
+      validateFields();
+    }
+  };
+
+
+  // Handle custom field input change
+  const handleFieldChange = (fieldName, value, fieldId) => {
+    setSelectedFields((prevState) => ({
+      ...prevState,
+      [fieldName]: value,
+    }));
+
+    setErrorMessages((prevState) => ({
+      ...prevState,
+      [fieldId]: "", // Clear the error when the field is changed
+    }));
+  };
+
+  // Validate product fields before adding to cart or buying now
+const validateFields = () => {
+  const errors = {};
+
+  // Validate required custom fields
+  product.productFields?.forEach((field) => {
+    if (field.required && field.fieldType !== "Image" && !selectedFields[field.fieldName]) {
+      errors[field.id] = `${field.fieldName} is required.`;
+    }
+
+    if (field.fieldType === "Image") {
+      if (uploadedImages.length === 0) {
+        errors[field.id] = `${field.fieldName} is required.`;
+      } else if (uploadedImages.length < product.productMetaData.imageCountReq) {
+        errors[field.id] = `Please upload ${product.productMetaData.imageCountReq} images.`;
+      }
+    }
+  });
+
+  setErrorMessages(errors); // Update the error messages
+
+  return Object.keys(errors).length === 0; // Return true if no errors
+};
+  // Handle "Add to Cart" action
+  const handleAddToCart = async () => {
+    if (validateFields()) {
+    try {
+      const user = localStorage.getItem("user");
+      const userDetail = user ? JSON.parse(user) : null;
+      if (!userDetail) {
+        console.error("User not found");
+        return;
+      }
+      const response = await CartService.addToCart(
+        userDetail.id,
+        product?.id,
+        cartCount,
+        selectedSize.size,
+        selectedFields,
+        selectedPrice,
+        uploadedImages
+      );
+
+      if(response){
+        navigate('/account/cart');
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+  }
+
   const handleSizeClick = (size: any) => {
     setSelectedSize(size);
     if (product && product.productMetaData) {
@@ -76,10 +158,20 @@ const ProductDetailView = () => {
     }
   };
 
-  const addToCart = (add) => {
-    setCart(cart + 1);
-  }
+  const handleCartChange = (type: "increment" | "decrement") => {
+    setCartCount((prevCount) => {
+      let newCount = prevCount;
 
+      if (type === "increment") {
+        newCount = prevCount + 1;
+        // setSelectedPrice(selectedPrice + product.productMetaData.price);
+      } else if (type === "decrement") {
+        newCount = Math.max(1, prevCount - 1); // Prevent count from going below 1
+        // setSelectedPrice(selectedPrice - product.productMetaData.price);
+      }
+      return newCount;
+    });
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
@@ -172,53 +264,7 @@ const ProductDetailView = () => {
                 -{discountPrice}
                 </span>
               </div>
-              <div className="mb-3">
-                <div className="d-inline float-start me-2">
-                  <div className="input-group input-group-sm mw-140">
-                    <button
-                      className="btn btn-primary text-white"
-                      type="button"
-                      onClick={() => setCartCount((prevCount) => Math.max(1, prevCount - 1))}
-                    >
-                      <i className="bi bi-dash-lg"></i>
-                    </button>
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={cartCount}
-                      readOnly 
-                    />
-                    <button
-                      className="btn btn-primary text-white"
-                      type="button"
-                      onClick={() => setCartCount((prevCount) => prevCount + 1)}
-                    >
-                      <i className="bi bi-plus-lg"></i>
-                    </button>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-primary me-2"
-                  title="Add to cart"
-                >
-                  <i className="bi bi-cart-plus me-1"></i>Add to cart
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-warning me-2"
-                  title="Buy now"
-                >
-                  <i className="bi bi-cart3 me-1"></i>Buy now
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline-secondary"
-                  title="Add to wishlist"
-                >
-                  <i className="bi bi-heart-fill"></i>
-                </button>
-              </div>
+              
               {/* <div>
                 <p className="fw-bold mb-2 small">Product Highlights</p>
                 <ul className="small">
@@ -243,19 +289,68 @@ const ProductDetailView = () => {
                     className="form-control"
                     placeholder={`Enter ${field.fieldName}`}
                     required={field.required}
+                    onChange={(e) => handleFieldChange(field.fieldName, e.target.value, field.id)}
                   />
                 )}
                 {field.fieldType === "Image" && (
-                  <input
-                    type="file"
-                    id={`field-${field.id}`}
-                    className="form-control"
-                    accept="image/*"
-                    required={field.required}
-                  />
+                  // <input
+                  //   type="file"
+                  //   id={`field-${field.id}`}
+                  //   className="form-control"
+                  //   accept="image/*"
+                  //   required={field.required}
+                  //   multiple
+                  // />
+                  <ImageUploader handleImagesChange = {handleImagesChange} imageCountReq = {product.productMetaData.imageCountReq}/>
                 )}
+                  {errorMessages[field.id] && (
+                    <div className="text-danger small mt-1">{errorMessages[field.id]}</div>
+                  )}
+
+                  
               </div>
             ))}
+            <div className="mb-3">
+                <div className="d-inline float-start me-2">
+                  <div className="input-group input-group-sm mw-140">
+                    <button
+                      className="btn btn-primary text-white"
+                      type="button"
+                      onClick={() => handleCartChange("decrement")}
+                    >
+                      <i className="bi bi-dash-lg"></i>
+                    </button>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={cartCount}
+                      readOnly 
+                    />
+                    <button
+                      className="btn btn-primary text-white"
+                      type="button"
+                      onClick={() => handleCartChange("increment")}
+                    >
+                      <i className="bi bi-plus-lg"></i>
+                    </button>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-sm btn-primary me-2"
+                  title="Add to cart"
+                  onClick={handleAddToCart}
+                >
+                  <i className="bi bi-cart-plus me-1"></i>Add to cart
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-sm btn-outline-secondary"
+                  title="Add to wishlist"
+                >
+                  <i className="bi bi-heart-fill"></i>
+                </button>
+              </div>
             </div>
           </div>
           <div className="row">

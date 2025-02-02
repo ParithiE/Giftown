@@ -36,7 +36,6 @@ const HomeView = () => {
   );
   // map the rows as div.row
   const carouselContent = categoryRow.map((row, idx) => {
-    console.log("Home view");
     return (
       <div className={`carousel-item ${idx === 0 ? "active" : ""}`} key={idx}>
         <div className="row g-3">
@@ -122,15 +121,13 @@ const HomeView = () => {
       </div>
       <div className="container-fluid bg-light mb-3 mt-3">
         <div className="row g-3">
-          <div className="col-md-9">
+          <div className="col-md-12">
 
             <Support />
 
           </div>
-          <div className="col-md-3">
             <CardLogin className="mb-3" />
-            <CardImage src="../../images/gift.png" to="promo" className="lucky-image" />
-          </div>
+            {/* <CardImage src="../../images/gift.png" to="promo" className="lucky-image" /> */}
         </div>
       </div>
 
