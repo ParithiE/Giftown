@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { Alert, Button } from 'react-bootstrap';
 import CartService from "../../utils/CartService.ts";
 import "../../App.css"
+import { useProductSeletor } from "../../hooks/useProductSelector.ts";
 
 const CouponApplyForm = lazy(() =>
   import("../../components/others/CouponApplyForm")
 );
 
 const CartView = () => {
+  const { products } = useProductSeletor();
   const onSubmitApplyCouponCode = async (values) => {
     alert(JSON.stringify(values));
   };
@@ -23,16 +25,37 @@ const CartView = () => {
         setCart(response);
       }
     };
-
     fetchCart();
   }, []);
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
 
+  const getProductName = (productId) => {
+    const productName = products.find((item) => item.id == productId).name;
+    return (
+      <Link to={`/product/${productId}/detail`} className="text-decoration-none">
+        {productName}
+      </Link>
+    )
+  }
+
+  const updateQuantity = async (itemId, newQuantity) => {
+    if (newQuantity < 1) return;
+    const updatedCartItem = await CartService.updateCartItem(itemId, newQuantity);
+    if(updatedCartItem){
+      setCart((prevCart) => ({
+        ...prevCart,
+        cartItems: prevCart.cartItems.map((item) =>
+          item.id === itemId ? updatedCartItem : item
+      ),
+      }))
+    }
+  };
+
   return (
     <div>
-      <div className="bg-secondary border-top p-4 text-white mb-3">
+      <div className="border-top p-4 text-black mb-3">
         <h1 className="display-6">Shopping Cart</h1>
       </div>
       <div className="container mb-3">
@@ -40,12 +63,13 @@ const CartView = () => {
           <div className="col-md-9">
             <div className="card">
               <div className="table-responsive">
-                <table className="table">
+                <table className="table  table-bordered">
                   <thead>
                     <tr>
                       <th>Product</th>
                       <th>Quantity</th>
                       <th>Price</th>
+                      <th>Subtotal</th>
                       <th>Actions</th>
                     </tr>
                   </thead>
@@ -64,30 +88,28 @@ const CartView = () => {
                             <div className="row align-items-center">
                               <div className="col-3 ">
                                 {item.imageUrls && item.imageUrls.length > 0 ? (
-                                  <img src={item.imageUrls[0]} width="80" alt="Uploaded by user" className="img-fluid" />
+                                  <img src={item.imageUrls[0]} width="90" alt="Uploaded by user" className="img-fluid" />
                                 ) : (
                                   <img src="../../images/placeholder.jpg" width="80" alt="No image available" className="img-fluid" />
                                 )}
                               </div>
                               <div className="col">
-                                <Link to={`/product/detail/${item.productId}`} className="text-decoration-none">
-                                  Product ID: {item.productId}
-                                </Link>
+                                {getProductName(item.productId)}
                                 <p className="small text-muted"><strong>Size:</strong> {item.size}</p>
                                 <span className="d-flex">
-                                {customFields &&
-                                  Object.entries(customFields).map(([key, value]) => (
-                                    <p key={key} className="small text-muted" style={{marginRight: "10px"}}>
-                                      <strong>Custom {key}:</strong> {value}
-                                    </p>
-                                  ))}
+                                  {customFields &&
+                                    Object.entries(customFields).map(([key, value]) => (
+                                      <p key={key} className="small text-muted" style={{ marginRight: "10px" }}>
+                                        <strong>{key}:</strong> {value}
+                                      </p>
+                                    ))}
 
                                 </span>
-                               
+
                                 {item.imageUrls && item.imageUrls.length > 1 && (
-                                  <div className="d-flex  mt-2">
+                                  <div className="d-flex flex-wrap mt-2">
                                     {item.imageUrls.map((url, index) => (
-                                      <img key={index} src={url} width="50" className="me-2 img-thumbnail" alt="User uploaded" />
+                                      <img key={index} src={url} width="70" className="me-2 img-thumbnail" alt="User uploaded" />
                                     ))}
                                   </div>
                                 )}
@@ -95,24 +117,22 @@ const CartView = () => {
                             </div>
                           </td>
                           <td>
-                            <div className="input-group input-group-sm mw-140">
-                              <button className="btn btn-primary text-white" type="button">
-                                <i className="bi bi-dash-lg"></i>
-                              </button>
+                            <div className="input-group input-group-sm">
+                              <button className="btn btn-primary" onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
                               <input type="text" className="form-control text-center" value={item.quantity} readOnly />
-                              <button className="btn btn-primary text-white" type="button">
-                                <i className="bi bi-plus-lg"></i>
-                              </button>
+                              <button className="btn btn-primary" onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
                             </div>
                           </td>
-                          <td>
-                            <var className="price">$237.00</var>
-                            <small className="d-block text-muted">$79.00 each</small>
-                          </td>
-                          <td className="text-end">
-                            <button className="btn btn-sm btn-outline-secondary me-2">
+                          {/* <td> */}
+                          {/* <var className="price">RS {item.price} </var> */}
+                          <td>RS {item.price}</td>
+                          <td>RS {item.price * item.quantity}</td>
+                          {/* <small className="d-block text-muted">{item.price/2} each</small> */}
+                          {/* </td> */}
+                          <td className="">
+                            {/* <button className="btn btn-sm btn-outline-secondary me-2">
                               <i className="bi bi-heart-fill"></i>
-                            </button>
+                            </button> */}
                             <button className="btn btn-sm btn-outline-danger">
                               <i className="bi bi-trash"></i>
                             </button>
@@ -220,4 +240,6 @@ const CartView = () => {
 };
 
 export default CartView;
+
+
 

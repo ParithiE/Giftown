@@ -57,9 +57,9 @@ const ProductDetailView = () => {
         if (response.data.length > 0) {
           const firstSize = response.data[0];
           setSelectedSize(firstSize);
-          setSelectedPrice(product.productMetaData.price + firstSize.additionalPrice);
+          setSelectedPrice(product.productMetaData.price);
           setOriginalPrice(product.productMetaData.price + 300);
-          setDiscountPrice(product.productMetaData.price + firstSize.additionalPrice - 300);
+          setDiscountPrice(product.productMetaData.price - 300);
         }
       }
     } catch (err) {
@@ -135,8 +135,8 @@ const validateFields = () => {
         product?.id,
         cartCount,
         selectedSize.size,
-        selectedFields,
         selectedPrice,
+        selectedFields,
         uploadedImages
       );
 
@@ -151,10 +151,36 @@ const validateFields = () => {
 
   const handleSizeClick = (size: any) => {
     setSelectedSize(size);
-    if (product && product.productMetaData) {
-      setSelectedPrice(product.productMetaData.price + size.additionalPrice);
-      setOriginalPrice(product.productMetaData.price + size.additionalPrice + 500);
-      setDiscountPrice(product.productMetaData.price + size.additionalPrice - 300);
+
+    // Skip price logic for the first size
+    if (product && product.productMetaData && productSizes.length > 0 && size.id !== productSizes[0].id) {
+      const selectedPrice = product.productMetaData.price + size.additionalPrice;
+
+      // Calculate the percentage increase
+      let percentageIncrease = 0;
+
+      if (selectedPrice <= 800) {
+          percentageIncrease = 50; // 50% increase for selected price <= ₹500
+      } else if (selectedPrice <= 1000) {
+          percentageIncrease = 60; // 60% increase for selected price <= ₹700
+      } else if (selectedPrice <= 1200) {
+          percentageIncrease = 70; // 80% increase for selected price > ₹700
+      }
+
+      // Calculate original price based on percentage
+      const originalPrice = Math.round(selectedPrice * (1 + percentageIncrease / 100));
+
+      // Calculate discount as difference between original and selected price
+      const discount = Math.round(originalPrice - selectedPrice);
+
+      setSelectedPrice(selectedPrice);
+      setOriginalPrice(originalPrice);
+      setDiscountPrice(discount);
+    } else {
+      // Reset to base price for the first size
+      setSelectedPrice(product.productMetaData.price);
+      setOriginalPrice(product.productMetaData.price + 300);
+      setDiscountPrice(product.productMetaData.price - 300);
     }
   };
 

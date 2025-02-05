@@ -1,5 +1,5 @@
 import ApiService from "./ApiService.ts";
-import { ADD_TO_CART, CART } from "../constants/apiConstants.ts";
+import { ADD_TO_CART, CART, UPDATE_CART } from "../constants/apiConstants.ts";
 
 class CartService {
   static async addToCart(userId: number, productId: number, quantity: number, size: number, price: number, selectedFields: any, uploadedImages: File[]) {
@@ -38,6 +38,19 @@ class CartService {
       } catch (error) {
         console.error("Error fetching cart:", error);
       }
+  }
+
+  static async updateCartItem(cartItemId: number, newQuantity: number) {
+          
+    try{
+      const updateCartUrl =`${UPDATE_CART}/${cartItemId}`
+      const payload = {
+        quantity: newQuantity,
+      };
+       return await ApiService.put(updateCartUrl, payload)
+    } catch(error) {
+      alert("Error Updating cart:"+ error)
+    }
   }
 }
 
