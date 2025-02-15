@@ -42,7 +42,7 @@ const CartView = () => {
 
   const updateQuantity = async (itemId, newQuantity) => {
     if (newQuantity < 1) return;
-    const updatedCartItem = await CartService.updateCartItem(itemId, newQuantity);
+    const updatedCartItem = await CartService.updateCartItem(itemId, newQuantity, cart.userId);
     if(updatedCartItem){
       setCart((prevCart) => ({
         ...prevCart,
@@ -53,6 +53,22 @@ const CartView = () => {
     }
   };
 
+  const removeCartItem = async (itemId) => {
+    const updatedCart = await CartService.cleartCartItembyId (cart.userId, itemId);
+    if(updatedCart){
+      setCart(updatedCart);
+    }
+  }
+
+  const totalPrice = () => {
+    if (!cart || !cart.cartItems) return 0;
+  
+    const total = cart.cartItems.reduce((total, item) => {
+      return total + item.quantity * item.price;
+    }, 0);
+  
+    return total.toFixed(2); // Format to 2 decimal places
+  };  
   return (
     <div>
       <div className="border-top p-4 text-black mb-3">
@@ -133,7 +149,7 @@ const CartView = () => {
                             {/* <button className="btn btn-sm btn-outline-secondary me-2">
                               <i className="bi bi-heart-fill"></i>
                             </button> */}
-                            <button className="btn btn-sm btn-outline-danger">
+                            <button className="btn btn-sm btn-outline-danger" onClick={() => removeCartItem(item.id)}>
                               <i className="bi bi-trash"></i>
                             </button>
                           </td>
@@ -144,7 +160,7 @@ const CartView = () => {
                 </table>
               </div>
               <div className="card-footer">
-                <Link to="/checkout" className="btn btn-primary float-end">
+                <Link to="/account/checkout" className="btn btn-primary float-end">
                   Make Purchase <i className="bi bi-chevron-right"></i>
                 </Link>
                 <Link to="/" className="btn btn-secondary">
@@ -168,7 +184,7 @@ const CartView = () => {
               <div className="card-body">
                 <dl className="row border-bottom">
                   <dt className="col-6">Total price:</dt>
-                  <dd className="col-6 text-end">$1,568</dd>
+                  <dd className="col-6 text-end">RS: {totalPrice()}</dd>
 
                   <dt className="col-6 text-success">Discount:</dt>
                   <dd className="col-6 text-success text-end">-$58</dd>

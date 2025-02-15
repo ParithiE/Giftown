@@ -24,7 +24,7 @@ const SignInForm = (props) => {
         name="mobileNo"
         type="text"
         component={renderFormGroupField}
-        placeholder="Mobile no without country code"
+        placeholder="Mobile number without country code"
         icon={IconPhone}
         validate={[required, maxLengthMobileNo, minLengthMobileNo, digit]}
         required={true}

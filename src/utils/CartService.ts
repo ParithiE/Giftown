@@ -1,5 +1,5 @@
 import ApiService from "./ApiService.ts";
-import { ADD_TO_CART, CART, UPDATE_CART } from "../constants/apiConstants.ts";
+import { ADD_TO_CART, CART, CLEAR, UPDATE_CART } from "../constants/apiConstants.ts";
 
 class CartService {
   static async addToCart(userId: number, productId: number, quantity: number, size: number, price: number, selectedFields: any, uploadedImages: File[]) {
@@ -24,32 +24,42 @@ class CartService {
     }
   }
 
-  static async fetchCart(){
+  static async fetchCart() {
     const user = localStorage.getItem("user");
     const userDetail = user ? JSON.parse(user) : null;
-    
+
     if (!userDetail) {
       console.error("User not found");
       return;
     }
     try {
-        const response = await  ApiService.get(`${CART}/${userDetail.id}`);; // Adjust API endpoint
-        return response.data;
-      } catch (error) {
-        console.error("Error fetching cart:", error);
-      }
+      const response = await ApiService.get(`${CART}/${userDetail.id}`);; // Adjust API endpoint
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching cart:", error);
+    }
   }
 
-  static async updateCartItem(cartItemId: number, newQuantity: number) {
-          
-    try{
-      const updateCartUrl =`${UPDATE_CART}/${cartItemId}`
-      const payload = {
-        quantity: newQuantity,
-      };
-       return await ApiService.put(updateCartUrl, payload)
-    } catch(error) {
-      alert("Error Updating cart:"+ error)
+  static async updateCartItem(cartItemId: number, newQuantity: number, userId: number) {
+
+    try {
+      const updateCartUrl = `${UPDATE_CART}/${userId}/${cartItemId}?quantity=${newQuantity}`
+      // const payload = {
+      //   quantity: newQuantity,
+      // };
+      return await ApiService.put(updateCartUrl, null)
+    } catch (error) {
+      alert("Error Updating cart:" + error)
+    }
+  }
+
+  static async cleartCartItembyId(userId: number, cartItemId: number) {
+    try {
+      const cartItmUrl = `${CART}/${userId}/${cartItemId}${CLEAR}`
+      const response = await ApiService.delete(cartItmUrl)
+      return response;
+    } catch (error) {
+      alert("Error Deleting cart item:" + error)
     }
   }
 }

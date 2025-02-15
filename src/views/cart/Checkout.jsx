@@ -1,7 +1,23 @@
+import renderFormGroupField from "../../helpers/renderFormGroupField";
+import { Field, reduxForm } from "redux-form";
+import { compose } from "redux";
+import {
+  required,
+  maxLength20,
+  minLength8,
+  maxLengthMobileNo,
+  minLengthMobileNo,
+  digit,
+} from "../../helpers/validation";
+import { ReactComponent as IconPhone } from "bootstrap-icons/icons/phone.svg";
+import { ReactComponent as IconPerson } from "bootstrap-icons/icons/person.svg";
+import renderFormSelect from "../../helpers/renderFormSelect";
+import { TAMIL_NADU_DISTRICTS } from "../../constants/CommonConstant.ts";
+
 const CheckoutView = () => {
   return (
     <div>
-      <div className="bg-secondary border-top p-4 text-white mb-3">
+      <div className=" border-top p-4 text-black mb-3">
         <h1 className="display-6">Checkout</h1>
       </div>
       <div className="container mb-3">
@@ -11,7 +27,7 @@ const CheckoutView = () => {
               <div className="card-header">
                 <i className="bi bi-envelope"></i> Contact Info
               </div>
-              <div className="card-body">
+              {/* <div className="card-body">
                 <div className="row g-3">
                   <div className="col-md-6">
                     <input
@@ -30,10 +46,10 @@ const CheckoutView = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
 
-            <div className="card mb-3">
+            {/* <div className="card mb-3">
               <div className="card-header">
                 <i className="bi bi-truck"></i> Shipping Infomation
               </div>
@@ -84,9 +100,9 @@ const CheckoutView = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
-            <div className="card mb-3">
+            {/* <div className="card mb-3">
               <div className="card-header">
                 <i className="bi bi-receipt"></i> Billing Infomation
                 <div className="form-check form-check-inline ms-3">
@@ -151,8 +167,79 @@ const CheckoutView = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
 
+<form  noValidate>
+      <Field
+        name="name"
+        type="text"
+        component={renderFormGroupField}
+        placeholder="Full Name"
+        icon={IconPerson}
+        validate={[required("name")]}
+        required={true}
+        className="mb-3"
+      />
+         <Field
+        name="mobileNo"
+        type="text"
+        component={renderFormGroupField}
+        placeholder="Mobile number without country code"
+        icon={IconPhone}
+        validate={[required("mobile"), maxLengthMobileNo, minLengthMobileNo, digit]}
+        required={true}
+        className="mb-3"
+      />
+   
+        <Field
+        name="addressLine1"
+        type="text"
+        component={renderFormGroupField}
+        placeholder="Flat, House no., Building, Company, Apartment"
+        icon={IconPhone}
+        validate={[required("address")]}
+        required={true}
+        className="mb-3"
+      />
+         <Field
+        name="adressLine2"
+        type="text"
+        component={renderFormGroupField}
+        placeholder="Area, Street, Sector, Village"
+        icon={IconPhone}
+        required={true}
+        className="mb-3"
+      />
+         <Field
+        name="landmark"
+        type="text"
+        component={renderFormGroupField}
+        placeholder="Eg: near apollo hospital"
+        icon={IconPhone}
+        className="mb-3"
+      />
+         <Field
+        name="city"
+        type="text"
+        component={renderFormGroupField}
+        placeholder="Town/City"
+        icon={IconPhone}
+        validate={[required("city")]}
+        required={true}
+        className="mb-3"
+      />
+         <Field
+        name="state"
+        type="text"
+        component={renderFormSelect}
+        placeholder="Mobile number without country code"
+        icon={IconPhone}
+        validate={[required("state")]}
+        required={true}
+        className="mb-3"
+        option = {TAMIL_NADU_DISTRICTS}
+      />
+</form>
             <div className="card mb-3 border-info">
               <div className="card-header bg-info">
                 <i className="bi bi-credit-card-2-front"></i> Payment Method
@@ -294,4 +381,8 @@ const CheckoutView = () => {
   );
 };
 
-export default CheckoutView;
+export default compose(
+  reduxForm({
+    form: "signin",
+  })
+)(CheckoutView);

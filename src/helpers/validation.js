@@ -1,11 +1,10 @@
-export const required = (value) =>{
-  console.log("Value received for validation:", value
+import { VALIDATION } from "../constants/CommonConstant.ts";
+
+export const required = (fieldName) => (value) => {
+  return value && value.trim() !== ""
     ? undefined
-    : "This field is required");
- return value && value.trim() !== ""
-    ? undefined
-    : "This field is required";
-}
+    : VALIDATION[fieldName] || "This field is required"; // Fallback message
+};
 export const number = (value) =>
   value && isNaN(Number(value)) ? "Must be a number" : undefined;
 export const digit = (value) =>
