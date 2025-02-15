@@ -5,6 +5,7 @@ export const IMAGEPATH ={
 
 export const VALIDATION = {
     name: "Please enter a name",
+    password: "Please enter a password",
     mobile: "Please enter a phone number so we can call if there are any issues with delivery.",
     zipCode: "Please enter a valid zip code",
     city: "Please enter a city",

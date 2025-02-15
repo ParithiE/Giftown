@@ -37,7 +37,7 @@ const SignInForm = (props) => {
           component={renderFormGroupField}
           placeholder="******"
           icon={IconShieldLock}
-          validate={[required, maxLength20, minLength8]}
+          validate={[required("password"), maxLength20, minLength8]}
           required={true}
           maxLength="20"
           minLength="8"
