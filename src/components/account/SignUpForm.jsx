@@ -31,7 +31,7 @@ const SignUpForm = (props) => {
             // label="First Name"
             component={renderFormGroupField}
             placeholder="Username"
-            validate={[required, name]}
+            validate={[required("name"), name]}
             required={true}
             className="mb-3"
             icon={IconUser}
@@ -39,12 +39,11 @@ const SignUpForm = (props) => {
       <Field
         name="phoneNumber"
         type="number"
-        // label="Mobile no"
+         //label="Mobile no"
         component={renderFormGroupField}
         placeholder="Mobile No without country code"
         icon={IconPhone}
-        validate={[required, maxLengthMobileNo, minLengthMobileNo, digit]}
-        required={true}
+        validate={[maxLengthMobileNo, minLengthMobileNo, digit]}
         max="999999999999999"
         min="9999"
         className="mb-3"
@@ -56,7 +55,7 @@ const SignUpForm = (props) => {
         component={renderFormGroupField}
         placeholder="Password"
         icon={IconShieldLock}
-        validate={[required, maxLength20, minLength8]}
+        validate={[required("password"), maxLength20, minLength8]}
         required={true}
         maxLength="20"
         minLength="8"

@@ -117,9 +117,9 @@ function App() {
                     exact
                     path="/account/checkout"
                     element={
-                      <ProtectedRoute>
+                      // <ProtectedRoute>
                         <CheckoutView />
-                      </ProtectedRoute>
+                      // </ProtectedRoute>
                     }
                   />
                   <Route exact path="/invoice" element={<InvoiceView />} />

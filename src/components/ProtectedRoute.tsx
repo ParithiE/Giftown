@@ -6,7 +6,7 @@ const ProtectedRoute = ({ children }) => {
   const isAuthenticated = user ? JSON.parse(user) : null;
   const location = useLocation();
 
-  return isAuthenticated.token ? children : <Navigate to="/account/signin" state={{ from: location.pathname }} />;
+  return isAuthenticated?.token ? children : <Navigate to="/account/signin" state={{ from: location.pathname }} />;
 };
 
 export default ProtectedRoute;
