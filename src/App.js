@@ -26,7 +26,7 @@ const MyProfileView = lazy(() => import("./views/account/MyProfile"));
 const ProductListView = lazy(() => import("./views/product/List"));
 const ProductDetailView = lazy(() => import("./views/product/Detail.tsx"));
 const StarZoneView = lazy(() => import("./views/product/StarZone"));
-const CartView = lazy(() => import("./views/cart/Cart"));
+const CartView = lazy(() => import("./views/cart/CartSummary.tsx"));
 const CheckoutView = lazy(() => import("./views/cart/Checkout"));
 const InvoiceView = lazy(() => import("./views/cart/Invoice"));
 const DocumentationView = lazy(() => import("./views/Documentation"));

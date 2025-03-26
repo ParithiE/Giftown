@@ -5,6 +5,12 @@ export const required = (fieldName) => (value) => {
     ? undefined
     : VALIDATION[fieldName] || "This field is required"; // Fallback message
 };
+
+export const requiredM = (value) => {
+  return value && value.trim() !== ""
+    ? undefined
+    :  "This field is required"; // Fallback message
+};
 export const number = (value) =>
   value && isNaN(Number(value)) ? "Must be a number" : undefined;
 export const digit = (value) =>

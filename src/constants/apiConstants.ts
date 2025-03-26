@@ -8,3 +8,6 @@ export const CART = "/cart"
 export const ADD_TO_CART = CART + "/add-to-cart"
 export const UPDATE_CART = CART + "/update"
 export const CLEAR = "/clear"
+export const CREATE = "/create"
+export const ORDERS = "/orders"
+export const CREATEORDER = ORDERS + CREATE

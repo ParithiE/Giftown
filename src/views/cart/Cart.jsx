@@ -1,36 +1,9 @@
 import { lazy, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Alert, Button } from 'react-bootstrap';
-import CartService from "../../utils/CartService.ts";
 import "../../App.css"
-import { useProductSeletor } from "../../hooks/useProductSelector.ts";
 
-const CouponApplyForm = lazy(() =>
-  import("../../components/others/CouponApplyForm")
-);
-
-const CartView = () => {
-  const { products } = useProductSeletor();
-  const onSubmitApplyCouponCode = async (values) => {
-    alert(JSON.stringify(values));
-  };
-  const [cart, setCart] = useState(null);
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    // Fetch cart data from API
-    const fetchCart = async () => {
-      const response = await CartService.fetchCart();
-      if (response) {
-        setCart(response);
-      }
-    };
-    fetchCart();
-  }, []);
-
-  const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
-
+const CartView = ({cart, updateQuantity, removeCartItem, products}) => {
   const getProductName = (productId) => {
     const productName = products.find((item) => item.id == productId).name;
     return (
@@ -39,44 +12,12 @@ const CartView = () => {
       </Link>
     )
   }
-
-  const updateQuantity = async (itemId, newQuantity) => {
-    if (newQuantity < 1) return;
-    const updatedCartItem = await CartService.updateCartItem(itemId, newQuantity, cart.userId);
-    if(updatedCartItem){
-      setCart((prevCart) => ({
-        ...prevCart,
-        cartItems: prevCart.cartItems.map((item) =>
-          item.id === itemId ? updatedCartItem : item
-      ),
-      }))
-    }
-  };
-
-  const removeCartItem = async (itemId) => {
-    const updatedCart = await CartService.cleartCartItembyId (cart.userId, itemId);
-    if(updatedCart){
-      setCart(updatedCart);
-    }
-  }
-
-  const totalPrice = () => {
-    if (!cart || !cart.cartItems) return 0;
-  
-    const total = cart.cartItems.reduce((total, item) => {
-      return total + item.quantity * item.price;
-    }, 0);
-  
-    return total.toFixed(2); // Format to 2 decimal places
-  };  
   return (
     <div>
-      <div className="border-top p-4 text-black mb-3">
-        <h1 className="display-6">Shopping Cart</h1>
-      </div>
+
       <div className="container mb-3">
         <div className="row">
-          <div className="col-md-9">
+          <div className="col-md-12">
             <div className="card">
               <div className="table-responsive">
                 <table className="table  table-bordered">
@@ -174,43 +115,7 @@ const CartView = () => {
               </p>
             </div>
           </div>
-          <div className="col-md-3">
-            <div className="card mb-3">
-              <div className="card-body">
-                <CouponApplyForm onSubmit={onSubmitApplyCouponCode} />
-              </div>
-            </div>
-            <div className="card">
-              <div className="card-body">
-                <dl className="row border-bottom">
-                  <dt className="col-6">Total price:</dt>
-                  <dd className="col-6 text-end">RS: {totalPrice()}</dd>
-
-                  <dt className="col-6 text-success">Discount:</dt>
-                  <dd className="col-6 text-success text-end">-$58</dd>
-                  <dt className="col-6 text-success">
-                    Coupon:{" "}
-                    <span className="small text-muted">EXAMPLECODE</span>{" "}
-                  </dt>
-                  <dd className="col-6 text-success text-end">-$68</dd>
-                </dl>
-                <dl className="row">
-                  <dt className="col-6">Total:</dt>
-                  <dd className="col-6 text-end  h5">
-                    <strong>$1,350</strong>
-                  </dd>
-                </dl>
-                <hr />
-                <p className="text-center">
-                  <img
-                    src="../../images/payment/payments.webp"
-                    alt="..."
-                    height={26}
-                  />
-                </p>
-              </div>
-            </div>
-          </div>
+          {/**/}
         </div>
       </div>
       <div className="bg-light border-top p-4">
@@ -237,7 +142,7 @@ const CartView = () => {
         </div>
       </div>
 
-      <div className="container mt-4">
+      {/* <div className="container mt-4">
         <Button variant="primary" onClick={handleShow}>
           Show Alert
         </Button>
@@ -250,7 +155,7 @@ const CartView = () => {
             </p>
           </Alert>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
